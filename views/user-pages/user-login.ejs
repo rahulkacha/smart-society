@@ -1,24 +1,72 @@
-<%- include("../partials/header"); -%> 
+<%- include("../partials/header"); -%>
 
-<div class="container">
-  <h3>Login</h3>
-  <br />
-  <form action="/login" method="post">
-    <input
-      type="email"
-      name="email"
-      id="email"
-      placeholder="email address"
-    /><br /><br />
-    <input
-      type="password"
-      name="password"
-      id="password"
-      placeholder="password"
-    /><br /><br />
-    <input type="submit" value="Login" />
-  </form>
-  <br />
-  not registered? <a href="/register"> Register</a>
-</div>
+<form method="post" action="/login">
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card shadow-2-strong" style="border-radius: 1rem">
+            <div class="card-body p-5 text-center">
+              <h3 class="mb-5">SMART SOCIETY</h3>
+
+              <h3 class="mb-5">Sign In</h3>
+
+              <div class="form-outline mb-4">
+                <input
+                  type="email"
+                  id="typeEmailX-2"
+                  class="form-control form-control-lg"
+                  placeholder="Email"
+                  name="email"
+                  autofocus
+                />
+              </div>
+              <br />
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="societyCode"
+                  class="form-control form-control-lg"
+                  placeholder="Society Code"
+                  name="societyCode"
+                />
+              </div>
+              <br />
+
+              <div class="form-outline mb-4">
+                <input
+                  type="password"
+                  id="typePasswordX-2"
+                  class="form-control form-control-lg"
+                  placeholder="password"
+                  name="password"
+                />
+              </div>
+              <br />
+
+              <input
+                class="btn btn-primary btn-lg"
+                value="Log In"
+                type="submit"
+              />
+              <br />
+              <br />
+              <div>
+                <p class="mb-0 text-black-50">
+                  <a class="text-black-50" href="#">Forgot password?</a>
+                </p>
+                <br />
+
+                <p class="mb-0 text-black-50">
+                  Not Registered?
+                  <a href="/register">Sign Up </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>
 <%- include("../partials/footer"); -%>
