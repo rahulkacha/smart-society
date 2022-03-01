@@ -27,6 +27,14 @@ router
     res.redirect("/home");
   });
 
+// GOOGLE OAUTH
+router
+  .route("/auth/google")
+
+  .get(function (req, res) {
+    res.send("user google auth triggered.");
+  });
+
 // HOME PAGE
 router
   .route("/home")

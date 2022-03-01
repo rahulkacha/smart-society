@@ -46,6 +46,14 @@ router
     res.redirect("/admin/profile");
   });
 
+// GOOGLE OAUTH
+router
+  .route("/admin/auth/google")
+
+  .get(function (req, res) {
+    res.send("admin google auth triggered.");
+  });
+
 // ADMIN PROFILE
 router.get("/admin/profile", function (req, res) {
   res.render("admin-pages/admin-profile");
