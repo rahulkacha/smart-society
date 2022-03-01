@@ -24,6 +24,6 @@ app.use(adminRoutes);
 // USER ROUTES
 app.use(userRoutes);
 
-app.listen(5000 || process.env.PORT, function () {
+app.listen(process.env.PORT || 5000, function () {
   console.log("Server started on port 5000.");
 });
