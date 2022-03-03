@@ -12,6 +12,7 @@ router
   })
   .post(function (req, res) {
     console.log(req.body);
+    // validate the email address in backend
     res.redirect("/home");
   });
 

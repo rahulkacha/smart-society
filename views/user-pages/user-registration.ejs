@@ -1,59 +1,118 @@
 <%- include("../partials/header"); -%>
 
-<div class="container">
-  <h3>Registration</h3>
-  <br />
-  <form action="/register" method="post">
-    <input type="text" name="fname" id="fname" placeholder="first name" /><br />
-    <br />
-    <input type="text" name="lname" id="lname" placeholder="last name" /><br />
-    <br />
-    <input
-      type="text"
-      name="number"
-      id="number"
-      placeholder="phone number"
-    /><br />
-    <br />
-    <input
-      type="text"
-      name="societyCode"
-      id="societyCode"
-      placeholder="society code"
-    /><br />
-    <br />
-    <input
-      type="text"
-      name="blockNo"
-      id="blockNo"
-      placeholder="block no"
-    /><br />
-    <br />
-    <input
-      type="email"
-      name="email"
-      id="email"
-      placeholder="email address"
-    /><br />
-    <br />
-    <input
-      type="password"
-      name="password"
-      id="password"
-      placeholder="password"
-    /><br />
-    <br />
-    <input
-      type="password"
-      name="password2"
-      id="password2"
-      placeholder="confirm password"
-    /><br />
-    <br />
-    <input type="submit" value="Register" />
-  </form>
-  <br />
-  already a member? <a href="/login"> Log in</a>
-</div>
+<form method="post" action="/register">
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card shadow-2-strong" style="border-radius: 1rem">
+            <div class="card-body p-5 text-center">
+              <h3 class="mb-5">SMART SOCIETY</h3>
 
+              <h3 class="mb-5">Register</h3>
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="fname"
+                  class="form-control form-control-lg"
+                  placeholder="first name"
+                  name="fname"
+                  autofocus
+                />
+              </div>
+              <br />
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="lname"
+                  class="form-control form-control-lg"
+                  placeholder="last name"
+                  name="lname"
+                />
+              </div>
+              <br />
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="number"
+                  class="form-control form-control-lg"
+                  placeholder="phone number"
+                  name="number"
+                />
+              </div>
+              <br />
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="societyCode"
+                  class="form-control form-control-lg"
+                  placeholder="Society Code"
+                  name="societyCode"
+                />
+              </div>
+              <br />
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="blockNo"
+                  class="form-control form-control-lg"
+                  placeholder="block no"
+                  name="blockNo"
+                />
+              </div>
+              <br />
+
+              <div class="form-outline mb-4">
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control form-control-lg"
+                  placeholder="email"
+                  name="email"
+                />
+              </div>
+              <br />
+
+              <div class="form-outline mb-4">
+                <input
+                  type="password"
+                  id="password"
+                  class="form-control form-control-lg"
+                  placeholder="password"
+                  name="password"
+                />
+              </div>
+              <br />
+              <div class="form-outline mb-4">
+                <input
+                  type="password"
+                  id="password2"
+                  class="form-control form-control-lg"
+                  placeholder="confirm password"
+                  name="password2"
+                />
+              </div>
+              <br />
+
+              <input
+                class="btn btn-primary btn-lg"
+                value="Register"
+                type="submit"
+              />
+              <br />
+              <br />
+              <hr class="my-4" />
+
+              <div>
+                <p class="mb-0 text-black-50">
+                  already a member? <a href="/login"> Log in</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>
 <%- include("../partials/footer"); -%>
