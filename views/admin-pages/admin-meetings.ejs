@@ -1,34 +1,80 @@
 <%- include("../partials/header"); -%> <%- include("../partials/admin-navbar");
 -%>
 
+<form method="post" action="/admin/meetings">
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card-body p-5 text-center">
+            <h3 class="mb-5">ADD A NEW MEETING</h3>
+
+            <div class="form-outline mb-4">
+              <input
+                class="form-control form-control-lg"
+                type="text"
+                name="title"
+                id="title"
+                placeholder="title"
+                autofocus
+              />
+            </div>
+            <br />
+            <div class="form-outline mb-4">
+              <input
+                class="form-control form-control-lg"
+                type="text"
+                name="agenda"
+                id="agenda"
+                placeholder="meeting agenda"
+              />
+            </div>
+            <br />
+
+            <div class="form-outline mb-4">
+              <input
+                class="form-control form-control-lg"
+                type="datetime-local"
+                name="datetime"
+              />
+            </div>
+            <br />
+
+            <div class="form-outline mb-4">
+              <input
+                class="form-control form-control-lg"
+                type="text"
+                name="details"
+                id="details"
+                placeholder="meeting details"
+              />
+            </div>
+            <br />
+
+            <div class="form-outline mb-4">
+              <input
+                class="form-control form-control-lg"
+                type="text"
+                name="venue"
+                id="venue"
+                placeholder="meeting venue"
+              />
+            </div>
+            <br />
+
+            <input class="btn btn-primary btn-lg" value="Add" type="submit" />
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>
+
 <div class="container">
-  <form action="/admin/meetings" method="post">
-    <input type="text" name="title" id="title" placeholder="title" /><br />
-    <input
-      type="text"
-      name="agenda"
-      id="agenda"
-      placeholder="meeting agenda"
-    /><br />
-    <input type="datetime-local" name="datetime" /><br />
-    <input
-      type="text"
-      name="details"
-      id="details"
-      placeholder="meeting details"
-    /><br />
-    <input
-      type="text"
-      name="venue"
-      id="venue"
-      placeholder="meeting venue"
-    /><br />
-    <input type="submit" value="Add" />
-  </form>
-</div>
-<br />
-<div class="container">
-  <h3>scheduled meetings</h3>
+  <div class="card-body p-5 text-center">
+    <h3 class="mb5">SCHEDULED MEETINGS</h3>
+  </div>
   <table class="table table-bordered border-dark">
     <tr>
       <th>sr no</th>
