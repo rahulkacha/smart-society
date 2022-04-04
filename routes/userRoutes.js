@@ -60,14 +60,22 @@ router
     res.render("user-pages/user-services");
   });
 
-// SERVICES/AMENITIES
+// SERVICES/ALL AMENITIES
 router
   .route("/services/amenities")
 
   .get(function (req, res) {
-    res.render("user-pages/user-amenities");
-  })
+    res.render("user-pages/user-amenities-list");
+  });
 
+// SERVICES/BOOK AN AMENITY
+router // the route will be /services/amenities/book/:amenityID
+  .route("/services/amenities/book")
+
+  .get(function (req, res) {
+    res.render("user-pages/user-book-amenity");
+  })
+  
   .post(function (req, res) {
     console.log(req.body);
     res.redirect("/services/amenities");

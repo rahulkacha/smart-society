@@ -111,7 +111,7 @@ router
   .route("/admin/complaints/complaintId")
 
   .get(function (req, res) {
-    res.render("admin-pages/complaint");
+    res.render("admin-pages/admin-complaint");
   })
   .post(function (req, res) {
     // this will handle psoting the comment to

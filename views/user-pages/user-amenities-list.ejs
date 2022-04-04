@@ -1,0 +1,45 @@
+<%- include("../partials/header"); -%> <%- include("../partials/user-navbar");
+-%>
+<br />
+<div class="container">
+  <h3 class="table-title">Amenities</h3>
+  <br />
+
+  <ul>
+      <!-- links will be "/services/amenities/book/<amenityID>" -->
+    <li>
+      <a href="/services/amenities/book"><h2>party lawn</h2></a>
+    </li>
+    <li>
+      <a href="/services/amenities/book"><h2>swimming pool</h2></a>
+    </li>
+    <li>
+      <a href="/services/amenities/book"><h2>auditorium</h2></a>
+    </li>
+  </ul>
+</div>
+<br />
+<hr />
+<div class="container">
+  <h3 class="table-title">Your bookings</h3>
+  <br />
+  <table class="table table-bordered border-dark">
+    <tr>
+      <th>sr no</th>
+      <th>amenity</th>
+      <th>book from</th>
+      <th>book till</th>
+      <th>status</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>party lawn</td>
+      <td>17/02/2021 11:00 AM</td>
+      <td>17/02/2021 03:00 PM</td>
+      <td>
+        <button>approved</button>
+      </td>
+    </tr>
+  </table>
+</div>
+<%- include("../partials/footer"); -%>
