@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const moment = require("moment");
+const Society = require("./society");
 
-mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
+// mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
 
 const complaintSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -14,3 +15,24 @@ const complaintSchema = new mongoose.Schema({
 });
 
 const Complaint = new mongoose.model("Complaint", complaintSchema);
+
+const date = moment().format("DD/MM/YYYY");
+
+const complaint = new Complaint({
+  title: "complaint title",
+  description: "ddafsfdfgf",
+  filedOn: date,
+  filedBy: "user1", // user ID from
+  comment: "commetnewfewfw",
+  society: "624ae7a023653564cc302c25",
+});
+
+complaint.save((err, obj) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("succesfully added a new complaint.");
+  }
+});
+
+module.exports = Complaint;
