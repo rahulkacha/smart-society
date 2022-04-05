@@ -1,15 +1,15 @@
-user = {
-  U_ID: Number, // default generated mongoose ObjectID
-  FlatNo: String,
-  name: String,
-  contact: Number,
-  email: String,
-  password: String,
-  occupantType: String, // tenant or owner
-  type: String, // resident or admin
-  society: String, // link to the society collection
-  societyCode: String, // link to society collection
-};
+// user = {
+//   U_ID: Number, // default generated mongoose ObjectID
+//   FlatNo: String,
+//   name: String,
+//   contact: Number,
+//   email: String,
+//   password: String,
+//   occupantType: String, // tenant or owner
+//   type: String, // resident or admin
+//   society: String, // link to the society collection
+//   societyCode: String, // link to society collection
+// };
 
 amenities = {
   A_ID: Number, // default generated mongoose ObjectID
@@ -25,13 +25,13 @@ amenities = {
   ],
 };
 
-complaint = {
-  C_ID: Number, // default generated mongoose ObjectID
-  Type: String,
-  user: String, // user id linking back to users collections
-  description: String,
-  status: Boolean, // resolved/pending
-};
+// complaint = {
+//   C_ID: Number, // default generated mongoose ObjectID
+//   Type: String,
+//   user: String, // user id linking back to users collections
+//   description: String,
+//   status: Boolean, // resolved/pending
+// };
 
 // meeting = {
 //   M_ID: Number, // default generated mongoose ObjectID
