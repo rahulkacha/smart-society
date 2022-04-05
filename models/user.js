@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   blockNo: { type: String },
-  contact: { type: String },
+  contact: { type: String, min: 10, max: 10 },
   occupantType: { type: String, default: "owner" },
   society: { type: mongoose.Types.ObjectId }, // link to the society collection
   societyCode: { type: String, required: true }, // link to society collection
