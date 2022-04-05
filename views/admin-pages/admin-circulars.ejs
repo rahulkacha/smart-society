@@ -2,12 +2,44 @@
 -%>
 <div class="container">
   <form action="/admin/circulars" method="post">
-    <input type="text" name="title" placeholder="circular title" /><br />
-    <input type="text" name="details" placeholder="circular details" /><br />
-    <input type="submit" value="Add" />
+    <section class="">
+      <div class="container py-5">
+        <div class="row d-flex justify-content-center align-items-center">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card-body p-5 text-center">
+              <h3 class="mb-5">ADD A NEW CIRCULAR</h3>
+
+              <div class="form-outline mb-4">
+                <input
+                  class="form-control form-control-lg"
+                  type="text"
+                  name="title"
+                  id="title"
+                  placeholder="circular title"
+                  autofocus
+                />
+              </div>
+              <br />
+              <div class="form-outline mb-4">
+                <textarea
+                  class="form-control"
+                  name="details"
+                  id="details"
+                  placeholder="circular details"
+                  cols="5"
+                  rows="2"
+                ></textarea>
+              </div>
+              <br />
+              <input class="btn btn-primary btn-lg" value="Add" type="submit" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </form>
 </div>
-<br />
+
 <div class="container">
   <h3 class="table-title">issued circulars</h3>
   <table class="table table-bordered border-dark">

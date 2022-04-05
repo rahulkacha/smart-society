@@ -43,7 +43,7 @@ router
   })
   .post(function (req, res) {
     console.log(req.body);
-    res.redirect("/admin/profile");
+    res.redirect("/admin/handle-users");
   });
 
 // GOOGLE OAUTH
@@ -53,11 +53,6 @@ router
   .get(function (req, res) {
     res.send("admin google auth triggered.");
   });
-
-// ADMIN PROFILE
-router.get("/admin/profile", function (req, res) {
-  res.render("admin-pages/admin-profile");
-});
 
 // HANDLE USERS
 router.get("/admin/handle-users", function (req, res) {
@@ -95,6 +90,7 @@ router
     res.render("admin-pages/admin-amenities");
   })
   .post(upload.single("image"), function (req, res) {
+    console.log(req.body);
     res.redirect("/admin/amenities");
   });
 
@@ -103,7 +99,7 @@ router
   .route("/admin/complaints")
 
   .get(function (req, res) {
-    res.render("admin-pages/admin-complaints");
+    res.render("admin-pages/admin-complaints-list");
   });
 
 // COMPLAINT PAGE

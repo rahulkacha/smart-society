@@ -6,6 +6,7 @@ const Society = require("./society");
 amenitySchema = new mongoose.Schema({
   name: { type: String, required: true },
   photo: { type: String }, // will be handled when the code is integrated
+  canBeBooked: { type: Boolean, default: false },
   bookings: [
     {
       user: { type: mongoose.Types.ObjectId, required: true },

@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
   occupantType: { type: String, default: "owner" },
   society: { type: mongoose.Types.ObjectId }, // link to the society collection
   societyCode: { type: String, required: true }, // link to society collection
+  date: { type: String, required: true },
 });
 
 const User = mongoose.model("User", userSchema);
@@ -28,6 +29,7 @@ bcrypt.hash(password, saltRounds, function (err, hash) {
     blockNo: "B173",
     contact: "8925164521",
     societyCode: "news624c25",
+    date: moment().format("DD/MM/YYYY"),
   });
 
   // user.save((err, obj) => {
