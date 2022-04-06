@@ -34,15 +34,6 @@
             <div class="form-outline mb-4">
               <input
                 class="form-control form-control-lg"
-                type="datetime-local"
-                name="datetime"
-              />
-            </div>
-            <br />
-
-            <div class="form-outline mb-4">
-              <input
-                class="form-control form-control-lg"
                 type="text"
                 name="details"
                 id="details"
@@ -62,15 +53,26 @@
             </div>
             <br />
 
+            <div class="mb-4">
+              <input
+                class="form-control form-control-lg"
+                type="datetime-local"
+                name="datetime"
+                id="datetime"
+              />
+              <br />
+              <label class="form-label" for="datetime">
+                <h4>schedule for:</h4></label
+              >
+            </div>
             <input class="btn btn-primary btn-lg" value="Add" type="submit" />
-            <br />
           </div>
         </div>
       </div>
     </div>
   </section>
 </form>
-
+<br />
 <div class="container">
   <div class="card-body p-5 text-center">
     <h3 class="mb5">SCHEDULED MEETINGS</h3>
