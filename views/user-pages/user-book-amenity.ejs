@@ -1,43 +1,73 @@
 <%- include("../partials/header"); -%> <%- include("../partials/user-navbar");
 -%>
 
-<div class="container">
-  <br />
-  <h3>amenity at a glance</h3>
-  <br />
-  <img
-    class="amenity-picture"
-    src="https://images.pexels.com/photos/261238/pexels-photo-261238.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-    alt="pool"
-  /><br /><br />
-  <form action="/services/amenities" method="post">
-    <h3 name="amenityName">swimming pool</h3>
-    <br />
-
-    <label for="bookFrom"><h4>book from:</h4></label><br />
-    <input type="datetime-local" name="bookFrom" id="bookFrom" /><br /><br />
-    <label for="bookTill"><h4>book till:</h4></label><br />
-    <input type="datetime-local" name="bookTill" id="bookTill" /><br /><br />
-    <input type="submit" value="Submit" />
+<div class="container-fluid">
+  <form action="/services/amenities/book" method="post">
+    <section class="vh-100">
+      <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card-body p-5 text-center">
+              <h3 class="mb-5">swimming pool</h3>
+              <img
+                class="img-thumbnail"
+                src="https://images.pexels.com/photos/261238/pexels-photo-261238.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                alt="pool"
+              /><br /><br />
+              <div class="mb-4">
+                <label class="form-label" for="bookFrom"
+                  ><h4>book from :</h4></label
+                ><br /><br />
+                <input
+                  class="form-control form-control-lg"
+                  type="datetime-local"
+                  name="bookFrom"
+                  id="bookFrom"
+                />
+              </div>
+              <br />
+              <div class="mb-4">
+                <label class="form-label" for="bookTill"
+                  ><h4>book till :</h4></label
+                ><br /><br />
+                <input
+                  class="form-control form-control-lg"
+                  type="datetime-local"
+                  name="bookTill"
+                  id="bookTill"
+                />
+              </div>
+              <br />
+              <input class="btn btn-primary btn-lg" value="Add" type="submit" />
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </form>
 </div>
 <br />
-<hr />
-<br />
+
 <div class="container">
+  <br />
+  <br />
+  <br /><br /><br /><br />
   <h3 class="table-title">bookings</h3>
   <br />
-  <table class="table table-bordered border-dark">
-    <tr>
-      <th>sr no</th>
-      <th>book from</th>
-      <th>book till</th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>17/02/2021 11:00 AM</td>
-      <td>17/02/2021 03:00 PM</td>
-    </tr>
-  </table>
+  <div class="table-responsive">
+    <table style="width: 100%" class="table table-bordered border-dark">
+      <tr>
+        <th>sr no</th>
+        <th>book from</th>
+        <th>book till</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>17/02/2021 11:00 AM</td>
+        <td>17/02/2021 03:00 PM</td>
+      </tr>
+    </table>
+  </div>
 </div>
 <%- include("../partials/footer"); -%>

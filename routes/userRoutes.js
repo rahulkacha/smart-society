@@ -44,23 +44,9 @@ router
     res.render("user-pages/user-home");
   });
 
-// PROFILE
-router
-  .route("/profile")
-
-  .get(function (req, res) {
-    res.render("user-pages/user-profile");
-  });
-
 // SERVICES
-router
-  .route("/services")
 
-  .get(function (req, res) {
-    res.render("user-pages/user-services");
-  });
-
-// SERVICES/ALL AMENITIES
+// ALL AMENITIES
 router
   .route("/services/amenities")
 
@@ -68,20 +54,20 @@ router
     res.render("user-pages/user-amenities-list");
   });
 
-// SERVICES/BOOK AN AMENITY
+// BOOK AN AMENITY
 router // the route will be /services/amenities/book/:amenityID
   .route("/services/amenities/book")
 
   .get(function (req, res) {
     res.render("user-pages/user-book-amenity");
   })
-  
+
   .post(function (req, res) {
     console.log(req.body);
     res.redirect("/services/amenities");
   });
 
-// SERVICES/CIRCULARS
+// CIRCULARS
 router
   .route("/services/circulars")
 
@@ -89,7 +75,7 @@ router
     res.render("user-pages/user-circulars");
   });
 
-// SERVICES/COMPLAINTS
+// COMPLAINTS
 router
   .route("/services/complaints")
 

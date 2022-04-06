@@ -15,13 +15,37 @@
           <a href="/home" class="nav-link">home</a>
         </li>
         <li class="nav-item">
-          <a href="/services" class="nav-link">services</a>
+          <div class="dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              services
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <a class="dropdown-item" href="/services/amenities"
+                  >amenities</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="/services/circulars"
+                  >circulars</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="/services/complaints"
+                  >complaints</a
+                >
+              </li>
+            </ul>
+          </div>
         </li>
         <li class="nav-item">
-          <a href="/contact" class="nav-link">contact</a>
-        </li>
-        <li class="nav-item">
-          <a href="/profile" class="nav-link">&lt;username&gt;/profile</a>
+          <a href="/contact" class="nav-link">contacts</a>
         </li>
       </ul>
     </div>

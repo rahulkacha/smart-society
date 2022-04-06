@@ -4,7 +4,7 @@ const router = express.Router();
 // LOGIN
 
 router
-  .route("/master/admin/login")
+  .route("/login")
   .get(function (req, res) {
     res.render("master-admin-pages/master-admin-login");
   })
@@ -15,7 +15,7 @@ router
 
 // GOOGLE OAUTH
 router
-  .route("/master/admin/auth/google")
+  .route("/auth/google")
 
   .get(function (req, res) {
     res.send("master admin google auth triggered.");
@@ -23,7 +23,7 @@ router
 
 // ADD A SOCIETY
 router
-  .route("/master/admin/add-society")
+  .route("/add-society")
 
   .get(function (req, res) {
     res.render("master-admin-pages/master-add-society");
@@ -35,7 +35,7 @@ router
 
 // MANAGE SOCITIES
 router
-  .route("/master/admin/manage-societies")
+  .route("/manage-societies")
 
   .get(function (req, res) {
     res.render("master-admin-pages/master-manage-societies");

@@ -3,20 +3,46 @@
 
 <div class="container">
   <form action="/services/complaints" method="post">
-    <h3 name="amenityName">file a complaint</h3>
-    <br />
+    <section class="">
+      <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card-body p-5 text-center">
+              <h3 class="mb-5">FILE A NEW COMPLAINT</h3>
 
-    <label for="complaintTitle"><h4>complaint title</h4></label><br />
-    <input type="text" name="complaintTitle" id="complaintTitle" /><br /><br />
-    <label for="description"><h4>description:</h4></label><br />
-    <textarea name="description" id="description" cols="30" rows="5"> </textarea
-    ><br /><br />
-    <input type="submit" value="Submit" />
+              <div class="form-outline mb-4">
+                <input
+                  class="form-control form-control-lg"
+                  type="text"
+                  name="title"
+                  id="title"
+                  placeholder="complaint title"
+                  autofocus
+                />
+              </div>
+              <br />
+              <div class="form-outline mb-4">
+                <textarea
+                  class="form-control"
+                  name="description"
+                  id="description"
+                  placeholder="add a complaint description."
+                  cols="5"
+                  rows="3"
+                ></textarea>
+              </div>
+              <br />
+              <input class="btn btn-primary btn-lg" value="Add" type="submit" />
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </form>
 </div>
-<br />
 <div class="container">
-  <h4 class="table-title">your complaints</h4>
+  <h3 class="table-title">your complaints</h3>
   <br />
   <table class="table table-bordered border-dark">
     <tr>
@@ -33,10 +59,7 @@
       <td>Lorem ipsum dolor sit amet elit.</td>
       <td>17/02/2022</td>
       <td>Lorem ipsum dolor sit amet elit.</td>
-
-      <td>
-        <button class="btn btn-info btn-sm">resolved</button>
-      </td>
+      <td>resolved</td>
     </tr>
   </table>
 </div>

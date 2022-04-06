@@ -15,11 +15,12 @@ app.get("/", function (req, res) {
   res.render("test-pages/home");
 });
 
+
 // MASTER ADMIN ROUTES
-app.use(masterAdminRoutes);
+app.use("/master/admin", masterAdminRoutes);
 
 // ADMIN ROUTES
-app.use(adminRoutes);
+app.use("/admin", adminRoutes);
 
 // USER ROUTES
 app.use(userRoutes);

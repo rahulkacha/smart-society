@@ -36,7 +36,7 @@ const upload = multer({
 
 // ADMIN LOGIN
 router
-  .route("/admin/login")
+  .route("/login")
 
   .get(function (req, res) {
     res.render("admin-pages/admin-login");
@@ -48,20 +48,20 @@ router
 
 // GOOGLE OAUTH
 router
-  .route("/admin/auth/google")
+  .route("/auth/google")
 
   .get(function (req, res) {
     res.send("admin google auth triggered.");
   });
 
 // HANDLE USERS
-router.get("/admin/handle-users", function (req, res) {
+router.route("/handle-users").get(function (req, res) {
   res.render("admin-pages/admin-handle-users");
 });
 
 // MEETINGS
 router
-  .route("/admin/meetings")
+  .route("/meetings")
 
   .get(function (req, res) {
     res.render("admin-pages/admin-meetings");
@@ -72,7 +72,7 @@ router
 
 // CIRCULARS
 router
-  .route("/admin/circulars")
+  .route("/circulars")
 
   .get(function (req, res) {
     res.render("admin-pages/admin-circulars");
@@ -84,7 +84,7 @@ router
 
 // AMENITIES
 router
-  .route("/admin/amenities")
+  .route("/amenities")
 
   .get(function (req, res) {
     res.render("admin-pages/admin-amenities");
@@ -96,7 +96,7 @@ router
 
 // COMPLAINTS
 router
-  .route("/admin/complaints")
+  .route("/complaints")
 
   .get(function (req, res) {
     res.render("admin-pages/admin-complaints-list");
@@ -104,7 +104,7 @@ router
 
 // COMPLAINT PAGE
 router
-  .route("/admin/complaints/complaintId")
+  .route("/complaints/complaintId")
 
   .get(function (req, res) {
     res.render("admin-pages/admin-complaint");
