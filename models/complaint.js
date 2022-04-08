@@ -27,12 +27,22 @@ const complaint = new Complaint({
   society: "624ae7a023653564cc302c25",
 });
 
-complaint.save((err, obj) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("succesfully added a new complaint.");
-  }
-});
+// complaint.save((err, obj) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("succesfully added a new complaint.");
+//   }
+// });
 
-module.exports = Complaint;
+function deleteComplaint(societyId) {
+  Complaint.deleteMany({ society: societyId }, (err, obj) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(obj);
+    }
+  });
+}
+
+module.exports = { Complaint, deleteComplaint };

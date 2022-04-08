@@ -24,3 +24,5 @@ const masterAdmin = new MasterAdmin({
 //     console.log(obj);
 //   }
 // });
+
+module.exports = MasterAdmin;

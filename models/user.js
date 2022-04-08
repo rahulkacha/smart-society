@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Society = require("./society");
 const bcrypt = require("bcrypt");
+const moment = require("moment");
 const saltRounds = 10;
 
 // mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
@@ -57,4 +58,14 @@ bcrypt.hash(password, saltRounds, function (err, hash) {
   // });
 });
 
-module.exports = User;
+function deleteUser(societyId) {
+  User.deleteMany({ society: societyId }, (err, obj) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(obj);
+    }
+  });
+}
+
+module.exports = { User, deleteUser };

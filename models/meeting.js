@@ -17,35 +17,43 @@ const meetingSchema = new mongoose.Schema({
 const Meeting = new mongoose.model("Meeting", meetingSchema);
 
 // ADDS A NEW MEETING
-Society.find({ _id: "624ae7a023653564cc302c25" }, (err, obj) => {
-  if (err) {
-    console.log(err);
-  } else {
-    const soc_obj = obj[0];
-    const dateTime = "2022-04-25T20:00"; // req.body.dateTime
-    const date = moment(dateTime).format("DD/MM/YYYY");
-    const time = moment(dateTime).format("hh:mm A");
+// Society.find({ _id: "624ae7a023653564cc302c25" }, (err, obj) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     const soc_obj = obj[0];
+//     const dateTime = "2022-04-25T20:00"; // req.body.dateTime
+//     const date = moment(dateTime).format("DD/MM/YYYY");
+//     const time = moment(dateTime).format("hh:mm A");
 
-    const meeting = new Meeting({
-      title: "req.body.title",
-      agenda: "req.body.agenda",
-      date: moment(dateTime).format("DD/MM/YYYY"), // parsed date
-      time: moment(dateTime).format("hh:mm A"), // parsed time
-      society: soc_obj._id, // add society ID from the user session
-      details: "req.body.details",
-      venue: "req.body.venue",
-    });
+//     const meeting = new Meeting({
+//       title: "req.body.title",
+//       agenda: "req.body.agenda",
+//       date: moment(dateTime).format("DD/MM/YYYY"), // parsed date
+//       time: moment(dateTime).format("hh:mm A"), // parsed time
+//       society: soc_obj._id, // add society ID from the user session
+//       details: "req.body.details",
+//       venue: "req.body.venue",
+//     });
 
-    meeting.save((err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("successfully added a new meeting.");
-      }
-    });
-  }
-});
+//     meeting.save((err) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         console.log("successfully added a new meeting.");
+//       }
+//     });
+//   }
+// });
 
-// CHECK WHETHER SOCIETY CAN BE RETRIEVED BY MEETING ID
+function deleteMeeting(societyId) {
+  Meeting.deleteMany({ society: societyId }, (err, obj) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(obj);
+    }
+  });
+}
 
-module.exports = Meeting;
+module.exports = { Meeting, deleteMeeting };
