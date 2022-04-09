@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Society = require("./society");
+const { Society, deleteSociety } = require("./society");
 const bcrypt = require("bcrypt");
 const moment = require("moment");
 const saltRounds = 10;
@@ -29,7 +29,7 @@ bcrypt.hash(password, saltRounds, function (err, hash) {
     password: hash,
     blockNo: "B173",
     contact: "8925164521",
-    societyCode: "news624c25",
+    societyCode: "hari625a91",
     date: moment().format("DD/MM/YYYY"),
   });
 

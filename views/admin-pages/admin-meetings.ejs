@@ -57,11 +57,11 @@
               <input
                 class="form-control form-control-lg"
                 type="datetime-local"
-                name="datetime"
-                id="datetime"
+                name="dateTime"
+                id="dateTime"
               />
               <br />
-              <label class="form-label" for="datetime">
+              <label class="form-label" for="dateTime">
                 <h4>schedule for:</h4></label
               >
             </div>
@@ -82,22 +82,31 @@
       <th>sr no</th>
       <th>meeting title</th>
       <th>meeting agenda</th>
+      <th>meeting details</th>
       <th>date</th>
       <th>time</th>
-      <th>meeting agenda</th>
       <th>venue</th>
       <th>delete meeting</th>
     </tr>
+    <% meetings.forEach(meeting => { %>
     <tr>
-      <td>1</td>
-      <td>navratri celebration</td>
-      <td>arrangements for dandiya-raas</td>
-      <td>2022-02-15</td>
-      <td>09:30PM</td>
-      <td>Vitae purus faucibus ornare suspendisse sed nisi lacus sed.</td>
-      <td>party lawn</td>
-      <td><button type="submit">Delete</button></td>
+      <td><%= meetings.indexOf(meeting) + 1 %></td>
+      <td><%= meeting.title %></td>
+      <td><%= meeting.agenda %></td>
+      <td><%= meeting.details %></td>
+      <td><%= moment(meeting.date).format("DD/MM/YYYY") %></td>
+      <td><%= moment(meeting.date).format("hh:mm A") %></td>
+      <td><%= meeting.title %></td>
+      <td>
+        <a
+          type="button"
+          href="/admin/meetings/delete/<%= meeting._id %>"
+          class="btn btn-danger"
+          >delete</a
+        >
+      </td>
     </tr>
+    <% }) %>
   </table>
 </div>
 <%- include("../partials/footer"); -%>

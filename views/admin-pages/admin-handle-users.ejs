@@ -11,36 +11,29 @@
       <th>email id</th>
       <th>block no</th>
       <th>contact no</th>
+      <th>occupant type</th>
       <th>registered on</th>
       <th>delete user</th>
     </tr>
+    <% users.forEach(function(user){ %>
     <tr>
-      <td>1</td>
-      <th>tyler durden</th>
-      <td>tylerdurden@yahoo.com</td>
-      <td>A-403</td>
-      <td>9909988544</td>
-      <td>12/12/2021</td>
-      <td><button type="submit">Delete</button></td>
+      <td><%= users.indexOf(user) + 1 %></td>
+      <td><%= user.name %></td>
+      <td><%= user.email %></td>
+      <td><%= user.blockNo %></td>
+      <td><%= user.contact %></td>
+      <td><%= user.occupantType %></td>
+      <td><%= user.date %></td>
+      <td>
+        <a
+          type="button"
+          href="/admin/delete/<%= user._id %>"
+          class="btn btn-danger"
+          >delete</a
+        >
+      </td>
     </tr>
-    <tr>
-      <td>2</td>
-      <th>travis bickle</th>
-      <td>travis@gmail.com</td>
-      <td>B-103</td>
-      <td>9874561212</td>
-      <td>12/01/2022</td>
-      <td><button type="submit">Delete</button></td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <th>frank costello</th>
-      <td>frankyc@gmail.com</td>
-      <td>C-702</td>
-      <td>9923999099</td>
-      <td>02/02/2022</td>
-      <td><button type="submit">Delete</button></td>
-    </tr>
+    <% }); %>
   </table>
 </div>
 <%- include("../partials/footer"); -%>

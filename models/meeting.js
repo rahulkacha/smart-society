@@ -8,7 +8,7 @@ const meetingSchema = new mongoose.Schema({
   title: { type: String, required: true },
   agenda: { type: String, required: true },
   date: { type: String, required: true },
-  time: { type: String, required: true },
+  time: { type: Date, required: true },
   society: { type: mongoose.Types.ObjectId, required: true }, // link to the society collection
   details: { type: String, default: "-" },
   venue: { type: String, default: "-" },

@@ -1,6 +1,6 @@
 <%- include("../partials/header"); -%>
 
-<form method="post" action="/admin/login">
+<form method="post" action="/admin/signup">
   <section class="vh-100">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -9,7 +9,17 @@
             <div class="card-body p-5 text-center">
               <h3 class="mb-5">SMART SOCIETY ADMIN</h3>
 
-              <h3 class="mb-5">Sign in</h3>
+              <h3 class="mb-5">Sign Up</h3>
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="name"
+                  class="form-control form-control-lg"
+                  placeholder="name"
+                  name="name"
+                />
+              </div>
+              <br />
 
               <div class="form-outline mb-4">
                 <input
@@ -19,6 +29,26 @@
                   placeholder="Email"
                   name="email"
                   autofocus
+                />
+              </div>
+              <br />
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="number"
+                  class="form-control form-control-lg"
+                  placeholder="phone number"
+                  name="number"
+                />
+              </div>
+              <br />
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="societyCode"
+                  class="form-control form-control-lg"
+                  placeholder="Society Code"
+                  name="societyCode"
                 />
               </div>
               <br />
@@ -39,23 +69,8 @@
                 value="Log in"
                 type="submit"
               />
-              <hr class="my-4" />
 
-              <a
-                class="btn btn-lg btn-primary google-btn"
-                type="submit"
-                href="/admin/auth/google"
-              >
-                <i class="fab fa-google me-2"></i> Sign in with google</a
-              >
               <br />
-              <br />
-              <div>
-                <p class="mb-0 text-black-50">
-                  <a class="0" href="#">Forgot password?</a>
-                </p>
-                <br />
-              </div>
             </div>
           </div>
         </div>

@@ -50,13 +50,22 @@
       <th>issuance date</th>
       <th>delete</th>
     </tr>
+    <% circulars.forEach(function(circular){ %>
     <tr>
-      <td>1</td>
-      <td>regarding parking spots</td>
-      <td>Vitae purus faucibus ornare suspendisse sed nisi lacus sed.</td>
-      <td>12/02/2022</td>
-      <td><button type="submit">Delete</button></td>
+      <td><%= circulars.indexOf(circular) + 1 %></td>
+      <td><%= circular.title %></td>
+      <td><%= circular.details %></td>
+      <td><%= circular.date%></td>
+      <td>
+        <a
+          type="button"
+          href="/admin/circular/delete/<%= circular._id %>"
+          class="btn btn-danger"
+          >delete</a
+        >
+      </td>
     </tr>
+    <% }); %>
   </table>
 </div>
 <%- include("../partials/footer"); -%>

@@ -8,7 +8,7 @@ const adminSchema = new mongoose.Schema({
   contact: { type: String, required: true, min: 10, max: 10 }, // will be validated during the request
   email: { type: String, required: true }, // will be validated during the request
   password: { type: String, required: true },
-  society: { type: mongoose.Types.ObjectId, required: true }, // link to the society collection
+  society: { type: mongoose.Types.ObjectId }, // link to the society collection
   societyCode: { type: String, required: true }, // link to society collection
 });
 
