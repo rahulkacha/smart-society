@@ -12,6 +12,7 @@ const { Circular, deleteCircular } = require("../models/circular");
 const { Complaint, deleteComplaint } = require("../models/complaint");
 const { Meeting, deleteMeeting } = require("../models/meeting");
 const { User, deleteUser } = require("../models/user");
+const { State, City } = require("../models/states");
 
 mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
 
@@ -54,7 +55,16 @@ router
   .route("/add-society")
 
   .get(function (req, res) {
-    res.render("master-admin-pages/master-add-society");
+    State.findOne({}, (err, states) => {
+      City.findOne({}, (err, cities) => {
+        const city = cities.city.sort();
+        const state = states.state.sort();
+        res.render("master-admin-pages/master-add-society", {
+          state: state,
+          city: city,
+        });
+      });
+    });
   })
   .post(function (req, res) {
     const id = mongoose.Types.ObjectId();
@@ -97,12 +107,12 @@ router
 router.route("/delete/:societyId/").get(function (req, res) {
   const id = req.params.societyId;
   deleteSociety(id);
-  // deleteAdmin(id);
-  // deleteAmenity(id);
-  // deleteCircular(id);
-  // deleteComplaint(id);
-  // deleteMeeting(id);
-  // deleteUser(id);
+  deleteAdmin(id);
+  deleteAmenity(id);
+  deleteCircular(id);
+  deleteComplaint(id);
+  deleteMeeting(id);
+  deleteUser(id);
   res.redirect("/master/admin/manage-societies");
 });
 

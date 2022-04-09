@@ -62,10 +62,11 @@
                   name="state"
                   id="state"
                 >
-                  <option selected>select state</option>
-                  <option>state one</option>
-                  <option>state Two</option>
-                  <option>state Three</option>
+                  <option name="testState" selected>select state</option>
+
+                  <% state.forEach(function(obj){ %>
+                  <option><%= obj %></option>
+                  <% }); %>
                 </select>
               </div>
               <br />
@@ -76,9 +77,10 @@
                   id="city"
                 >
                   <option selected>select city</option>
-                  <option>city one</option>
-                  <option>city Two</option>
-                  <option>city Three</option>
+
+                  <% city.forEach(function(obj){ %>
+                  <option><%= obj %></option>
+                  <% }); %>
                 </select>
               </div>
               <br />
