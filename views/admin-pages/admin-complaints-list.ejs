@@ -14,22 +14,35 @@
       <th>admin's comment</th>
       <th>status</th>
     </tr>
+    <% complaints.forEach(complaint => { %>
+
     <tr>
-      <td>1</td>
-      <td>lorem ipsum</td>
+      <td><%= complaints.indexOf(complaint) + 1 %></td>
+      <td><%= complaint.title %></td>
       <td>
         <!-- complaintId will be passed over to app.js to render a specific complaint -->
-        <a href="/admin/complaints/complaintId"
-          >Vitae purus faucibus ornare suspendisse sed nisi lacus sed.</a
+        <a href="/admin/complaints/<%= complaint._id %>"
+          ><%= complaint.description %></a
         >
       </td>
-      <td>12/02/2022</td>
-      <td>frank sheeran<br />A-403</td>
+      <td><%= complaint.filedOn %></td>
+      <td>
+        <%= complaint.filedBy.user.name %><br /><%=
+        complaint.filedBy.user.blockNo %>
+      </td>
       <!-- "no comment" will be the default value when a user files a complaint
          and will be overwritten by the admin -->
-      <td>no comment</td>
-      <td><button type="submit">Resolve</button></td>
+      <td><%= complaint.comment %></td>
+      <td>
+        <a
+          type="button"
+          href="/admin/complaints/resolve/<%= complaint._id %>"
+          class="btn btn-primary"
+          >Resolve</a
+        >
+      </td>
     </tr>
+    <% }) %>
   </table>
 </div>
 <%- include("../partials/footer"); -%>

@@ -2,13 +2,19 @@ const mongoose = require("mongoose");
 const moment = require("moment");
 const Society = require("./society");
 
-// mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
+mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
 
 const complaintSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   filedOn: { type: String, required: true },
-  filedBy: { type: String, required: true },
+  filedBy: {
+    user: {
+      userId: { type: mongoose.Types.ObjectId },
+      name: { type: String },
+      block: { type: String },
+    },
+  },
   comment: { type: String, default: "No comment from admin yet." },
   status: { type: String, default: "pending" },
   society: { type: mongoose.Types.ObjectId, required: true }, // link to the society collection
@@ -21,9 +27,14 @@ const date = moment().format("DD/MM/YYYY");
 const complaint = new Complaint({
   title: "complaint title",
   description: "ddafsfdfgf",
-  filedOn: date,
-  filedBy: "user1", // user ID from
-  comment: "commetnewfewfw",
+  filedOn: moment().format("DD/MM/YYYY"),
+  filedBy: {
+    user: {
+      userId: "624ae7a023653564cc302c25",
+      name: "user name",
+      blockNo: "block No",
+    },
+  }, 
   society: "624ae7a023653564cc302c25",
 });
 

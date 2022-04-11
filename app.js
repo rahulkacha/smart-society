@@ -8,13 +8,14 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use("/uploads/", express.static("./uploads/"));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // HOME PAGE
 app.get("/", function (req, res) {
   res.render("test-pages/home");
 });
-
 
 // MASTER ADMIN ROUTES
 app.use("/master/admin", masterAdminRoutes);

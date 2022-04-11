@@ -4,45 +4,40 @@ const multer = require("multer");
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
 const moment = require("moment");
+const fs = require("fs");
 //
 const { Society, deleteSociety } = require("../models/society");
 const { Admin, deleteAdmin } = require("../models/admin");
 const { User, deleteUser } = require("../models/user");
 const { Meeting, deleteMeeting } = require("../models/meeting");
 const { Circular, deleteCircular } = require("../models/circular");
-
+const { Amenity, deleteAmenity } = require("../models/amenity");
+const { Complaint, deleteComplaint } = require("../models/complaint");
+//
 const saltRounds = 10;
-
-// SETTING UP FILENAME AND DESTINATION
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
+//
+const fileStorageEngine = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads");
   },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
 const fileFilter = (req, file, cb) => {
-  // rejects a file based on the file type "mimetype"
-  if (
-    file.mimetype === "image/jpeg" ||
-    file.mimetype === "image/png" ||
-    file.mimetype === "application/pdf"
-  ) {
+  // reject a file
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
     cb(null, true);
   } else {
-    cb(
-      null,
-      console.error('worng file format! you uploaded "' + file.mimetype + '"'),
-      false
-    );
+    cb(null, false);
   }
 };
+
 const upload = multer({
-  storage: storage,
+  storage: fileStorageEngine,
+  limits: { fileSize: 1024 * 1024 * 5 }, //5 MB
   fileFilter: fileFilter,
-  limits: { fileSize: 1024 * 1024 * 5 }, //5 megabyte
 });
 
 // ADMIN SIGNUP
@@ -152,22 +147,14 @@ router
 // HANDLE USERS
 router.route("/handle-users").get(function (req, res) {
   // FILTER USERS BY SOCIETY CODE FOUND FROM THE SESSION OF ADMIN
-  User.find(
-    {},
-    {
-      sort: {
-        date: "asc",
-      },
-    },
-    (err, objects) => {
-      if (err) {
-        console.log(err);
-      } else {
-        const users = objects;
-        res.render("admin-pages/admin-handle-users", { users: users });
-      }
+  User.find({}, (err, objects) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const users = objects;
+      res.render("admin-pages/admin-handle-users", { users: users });
     }
-  );
+  });
 });
 
 router.route("/delete/:userId").get(function (req, res) {
@@ -273,38 +260,126 @@ router
     });
   });
 
+router.route("/circulars/delete/:circularId").get(function (req, res) {
+  Circular.findByIdAndDelete(req.params.circularId, (err, obj) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(obj);
+      res.redirect("/admin/circulars");
+    }
+  });
+});
+
 // AMENITIES
 router
   .route("/amenities")
 
   .get(function (req, res) {
-    res.render("admin-pages/admin-amenities");
+    // FILTER AMENITIES BY SOCIETY ID COLLECTED FROM THE ADMIN SESSION DATA
+    Amenity.find({}, (err, amenities) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("admin-pages/admin-amenities", { amenities: amenities });
+      }
+    });
   })
   .post(upload.single("image"), function (req, res) {
-    console.log(req.body);
-    res.redirect("/admin/amenities");
+    // ADD AMENITIES BY SOCIETY ID COLLECTED FROM THE ADMIN SESSION DATA
+    const newAmenity = new Amenity({
+      name: req.body.name,
+      description: req.body.description,
+      society: "62514f189dbdf6fc51f03a91",
+      photo: req.file.path,
+    });
+
+    newAmenity.save((err, obj) => {
+      if (err) {
+        console.log(err);
+      } else {
+        // console.log(obj);
+        res.redirect("/admin/amenities");
+      }
+    });
   });
+
+router.route("/amenities/delete/:amenityId").get(function (req, res) {
+  Amenity.findByIdAndDelete(req.params.amenityId, (err, obj) => {
+    if (err) {
+      console.log(err);
+    } else {
+      fs.unlink(obj.photo, (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(`succesfully deleted ${obj.photo}`);
+          res.redirect("/admin/amenities");
+        }
+      });
+    }
+  });
+});
 
 // COMPLAINTS
 router
   .route("/complaints")
 
   .get(function (req, res) {
-    res.render("admin-pages/admin-complaints-list");
+    Complaint.find({ status: "pending" }, (err, complaints) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("admin-pages/admin-complaints-list", {
+          complaints: complaints,
+        });
+      }
+    });
   });
 
-// COMPLAINT PAGE
+// COMPLAINT PAGE OF ADMIN TO COMMENT
 router
-  .route("/complaints/complaintId")
+  .route("/complaints/:complaintId")
 
   .get(function (req, res) {
-    res.render("admin-pages/admin-complaint");
+    Complaint.findOne({ _id: req.params.complaintId }, (err, complaint) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("admin-pages/admin-complaint", {
+          complaint: complaint,
+        });
+      }
+    });
   })
   .post(function (req, res) {
-    // this will handle psoting the comment to
-    // the database and overwriting the defalut comment
-    console.log(req.body);
-    res.redirect("/admin/complaints");
+    Complaint.findOneAndUpdate(
+      { id: req.params.complaintId },
+      { comment: req.body.comment },
+      (err, obj) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.redirect("/admin/complaints");
+        }
+      }
+    );
   });
+
+// ADMIN RESOLVES A COMMENT
+router.route("/complaints/resolve/:complaintId").get(function (req, res) {
+  Complaint.findOneAndUpdate(
+    { _id: req.params.complaintId },
+    { status: "resolved" },
+    (err, obj) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("resolved comaplint " + req.params.complaintId);
+        res.redirect("/admin/complaints");
+      }
+    }
+  );
+});
 
 module.exports = router;
