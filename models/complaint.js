@@ -34,7 +34,7 @@ const complaint = new Complaint({
       name: "user name",
       blockNo: "block No",
     },
-  }, 
+  },
   society: "624ae7a023653564cc302c25",
 });
 

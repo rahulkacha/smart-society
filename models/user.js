@@ -11,11 +11,26 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   blockNo: { type: String },
-  contact: { type: String, min: 10, max: 10 },
+  contact: { type: String, min: 10, max: 10, required: true },
   occupantType: { type: String, default: "owner" },
   society: { type: mongoose.Types.ObjectId }, // link to the society collection
   societyCode: { type: String, required: true }, // link to society collection
   date: { type: String, required: true },
+  bookings: [
+    {
+      amenityName: { type: String, required: true },
+      amenityId: { type: mongoose.Types.ObjectId, required: true },
+      bookingId: { type: mongoose.Types.ObjectId, required: true },
+      bookFrom: {
+        date: { type: String, required: true },
+        time: { type: String, required: true },
+      },
+      bookTill: {
+        date: { type: String, required: true },
+        time: { type: String, required: true },
+      },
+    },
+  ],
 });
 
 const User = mongoose.model("User", userSchema);

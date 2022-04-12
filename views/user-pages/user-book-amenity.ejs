@@ -1,18 +1,39 @@
 <%- include("../partials/header"); -%> <%- include("../partials/user-navbar");
--%>
-
+-%> <% if (!amenity.canBeBooked) { %>
+<!-- amenity can't be booked -->
 <div class="container-fluid">
-  <form action="/services/amenities/book" method="post">
+  <section class="vh-100">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card-body p-5 text-center">
+            <h3 class="mb-5"><%= amenity.name %></h3>
+            <img
+              class="img-thumbnail"
+              src="/<%= amenity.photo%>"
+              alt="<%= amenity.name %>"
+            /><br /><br /><br />
+            <h3><%= amenity.name %> can't be booked.</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<% }else{ %>
+<!-- amenity can be booked -->
+<div class="container-fluid">
+  <form action="/services/amenities/book/<%= amenity._id %>" method="post">
     <section class="vh-100">
       <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
             <div class="card-body p-5 text-center">
-              <h3 class="mb-5">swimming pool</h3>
+              <h3 class="mb-5"><%= amenity.name %></h3>
               <img
                 class="img-thumbnail"
-                src="https://images.pexels.com/photos/261238/pexels-photo-261238.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                alt="pool"
+                src="/<%= amenity.photo%>"
+                alt="<%= amenity.name %>"
               /><br /><br />
               <div class="mb-4">
                 <label class="form-label" for="bookFrom"
@@ -70,4 +91,7 @@
     </table>
   </div>
 </div>
+<% } %>
+
+<!-- /////////////////////////////////////////////////////////// -->
 <%- include("../partials/footer"); -%>

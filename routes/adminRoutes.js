@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const _ = require("lodash");
 const moment = require("moment");
 const fs = require("fs");
+const validator = require("validator");
 //
 const { Society, deleteSociety } = require("../models/society");
 const { Admin, deleteAdmin } = require("../models/admin");
@@ -40,7 +41,7 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-// ADMIN SIGNUP
+// ADMIN SIGNUP / REGISTER
 router
   .route("/signup")
 
@@ -58,47 +59,52 @@ router
         societyExist = socCodes.includes(req.body.societyCode);
 
         if (societyExist) {
-          // IF SOCIETY EXISTS (FINDING BY THE SOCIETYCODE WHICH ADMIN HAS INPUTTED)
-          bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-            if (!err) {
-              const newAdmin = new Admin({
-                name: req.body.name,
-                email: _.toLower(req.body.email),
-                password: hash,
-                contact: req.body.number,
-                societyCode: req.body.societyCode,
-              });
-              newAdmin.save((err, obj) => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  Society.findOne(
-                    { societyCode: obj.societyCode },
-                    (err, soc) => {
-                      if (err) {
-                        console.log(err);
-                      } else {
-                        Admin.findOneAndUpdate(
-                          { _id: obj._id },
-                          { society: soc._id },
-                          (err, admin) => {
-                            if (err) {
-                              console.log(err);
-                            } else {
-                              console.log(
-                                "successfully added " + admin.name + "."
-                              );
-                              res.redirect("/admin/login");
+          if (validator.isEmail(req.body.email)) {
+            // IF SOCIETY EXISTS (FINDING BY THE SOCIETYCODE WHICH ADMIN HAS INPUTTED)
+            bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+              if (!err) {
+                const newAdmin = new Admin({
+                  name: req.body.name,
+                  email: _.toLower(req.body.email),
+                  password: hash,
+                  contact: req.body.number,
+                  societyCode: req.body.societyCode,
+                });
+                newAdmin.save((err, obj) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    Society.findOne(
+                      { societyCode: obj.societyCode },
+                      (err, soc) => {
+                        if (err) {
+                          console.log(err);
+                        } else {
+                          Admin.findOneAndUpdate(
+                            { _id: obj._id },
+                            { society: soc._id },
+                            (err, admin) => {
+                              if (err) {
+                                console.log(err);
+                              } else {
+                                console.log(
+                                  "successfully added " + admin.name + "."
+                                );
+                                res.redirect("/admin/login");
+                              }
                             }
-                          }
-                        );
+                          );
+                        }
                       }
-                    }
-                  );
-                }
-              });
-            }
-          });
+                    );
+                  }
+                });
+              }
+            });
+          } else {
+            console.log("email is invalid.");
+            res.redirect("/admin/signup");
+          }
         } else {
           // SOCIETY DOESN'T EXIST OR A TYPO IN SOCIETY CODE
           console.log("wrong society code. try again.");
@@ -292,13 +298,13 @@ router
       description: req.body.description,
       society: "62514f189dbdf6fc51f03a91",
       photo: req.file.path,
+      canBeBooked: req.body.canBeBooked,
     });
 
     newAmenity.save((err, obj) => {
       if (err) {
         console.log(err);
       } else {
-        // console.log(obj);
         res.redirect("/admin/amenities");
       }
     });
@@ -309,6 +315,21 @@ router.route("/amenities/delete/:amenityId").get(function (req, res) {
     if (err) {
       console.log(err);
     } else {
+      User.updateMany(
+        {},
+        {
+          $pull: {
+            bookings: { amenityId: req.params.amenityId },
+          },
+        },
+        (err, obj) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(obj);
+          }
+        }
+      );
       fs.unlink(obj.photo, (err) => {
         if (err) {
           console.log(err);
@@ -354,12 +375,13 @@ router
   })
   .post(function (req, res) {
     Complaint.findOneAndUpdate(
-      { id: req.params.complaintId },
+      { _id: req.params.complaintId },
       { comment: req.body.comment },
       (err, obj) => {
         if (err) {
           console.log(err);
         } else {
+          console.log("comment added succesfully.");
           res.redirect("/admin/complaints");
         }
       }
@@ -375,7 +397,7 @@ router.route("/complaints/resolve/:complaintId").get(function (req, res) {
       if (err) {
         console.log(err);
       } else {
-        console.log("resolved comaplint " + req.params.complaintId);
+        console.log("resolved complaint " + req.params.complaintId);
         res.redirect("/admin/complaints");
       }
     }

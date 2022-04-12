@@ -11,7 +11,8 @@ amenitySchema = new mongoose.Schema({
   description: { type: String, required: true },
   bookings: [
     {
-      user: { type: mongoose.Types.ObjectId, required: true },
+      userId: { type: mongoose.Types.ObjectId, required: true },
+      name: { type: String, required: true },
       bookFrom: {
         date: { type: String, required: true },
         time: { type: String, required: true },

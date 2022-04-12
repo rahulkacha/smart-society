@@ -7,7 +7,10 @@
   <h3>
     <b><u>filed by : </u></b>
   </h3>
-  <h4><%= complaint.filedBy %> ( A-403 ) static on <%= complaint.filedOn %></h4>
+  <h4>
+    <%= complaint.filedBy.user.name %> ( <%= complaint.filedBy.user.block %> )
+    static on <%= complaint.filedOn %>
+  </h4>
   <h3>
     <br />
     <b><u>complaint title:</u></b>
@@ -17,7 +20,7 @@
 <br />
 
 <div class="container">
-  <form action="/admin/complaints/complaintId" method="post">
+  <form action="/admin/complaints/<%= complaint._id %>" method="post">
     <div class="w-25">
       <input
         class="form-control form-control-lg"

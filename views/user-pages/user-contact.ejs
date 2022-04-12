@@ -6,66 +6,33 @@
   <section class="mb-4">
     <br />
     <div class="row">
+      <% admins.forEach(admin => { %>
       <!-- Grid column-->
       <div class="col-md text-center">
-        <h3>&lt;adminName&gt;</h3>
+        <h3><%= admin.name %></h3>
         <br />
         <ul class="list-unstyled mb-0">
           <li>
             <i class="fa-regular fa-envelope fa-2x"></i>
             <h4>
-              <a href="mailto:frankabagnale@email.com"
-                >frankabagnale@email.com</a
-              >
+              <a href="mailto:<%= admin.email %>"><%= admin.email %></a>
             </h4>
           </li>
 
           <li>
             <i class="fas fa-phone mt-4 fa-2x"></i>
-            <h4><a href="tel:+9199999999"> +91 99899 99989</a></h4>
+            <h4>
+              <a href="tel:<%= admin.contact %>"> <%= admin.contact %></a>
+            </h4>
           </li>
 
           <li>
             <i class="fa-brands fa-whatsapp mt-4 fa-2x"></i>
             <h4>
               <a
-                href="https://wa.me/+91<admin contactNo>?text=Hi, I'm <user name> from <block no>."
+                href="https://wa.me/<%= admin.contact %>?text=Hi, I'm <%= userName %> from <%= blockNo%>."
               >
-                +91 99899 99989
-              </a>
-            </h4>
-          </li>
-        </ul>
-      </div>
-      <br />
-
-      <!--Grid column -->
-      <!-- Grid column-->
-      <div class="col-md text-center">
-        <h3>&lt;adminName&gt;</h3>
-        <br />
-        <ul class="list-unstyled mb-0">
-          <li>
-            <i class="fa-regular fa-envelope fa-2x"></i>
-            <h4>
-              <a href="mailto:frankabagnale@email.com"
-                >frankabagnale@email.com</a
-              >
-            </h4>
-          </li>
-
-          <li>
-            <i class="fas fa-phone mt-4 fa-2x"></i>
-            <h4><a href="tel:+9199999999"> +91 99899 99989</a></h4>
-          </li>
-
-          <li>
-            <i class="fa-brands fa-whatsapp mt-4 fa-2x"></i>
-            <h4>
-              <a
-                href="https://wa.me/+91<admin contactNo>?text=Hi, I'm <user name> from <block no>."
-              >
-                +91 99899 99989
+                <%= admin.contact %>
               </a>
             </h4>
           </li>
@@ -73,40 +40,7 @@
       </div>
       <br />
       <!--Grid column -->
-      <!-- Grid column-->
-      <div class="col-md text-center">
-        <h3>&lt;adminName&gt;</h3>
-        <br />
-        <ul class="list-unstyled mb-0">
-          <li>
-            <i class="fa-regular fa-envelope fa-2x"></i>
-            <h4>
-              <a href="mailto:frankabagnale@email.com"
-                >frankabagnale@email.com</a
-              >
-            </h4>
-          </li>
-
-          <li>
-            <i class="fas fa-phone mt-4 fa-2x"></i>
-            <h4><a href="tel:+9199999999"> +91 99899 99989</a></h4>
-          </li>
-
-          <li>
-            <i class="fa-brands fa-whatsapp mt-4 fa-2x"></i>
-            <h4>
-              <a
-                href="https://wa.me/+91<admin contactNo>?text=Hi, I'm <user name> from <block no>."
-              >
-                +91 99899 99989
-              </a>
-            </h4>
-          </li>
-        </ul>
-      </div>
-      <br />
-
-      <!--Grid column -->
+      <% }) %>
     </div>
   </section>
 </div>
