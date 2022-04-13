@@ -193,7 +193,7 @@ router
       {
         $push: {
           bookings: {
-            userId: "62555d5ed87a88d3d816b134", // userId from the session data
+            userId: "6256abfb4ee56d94de7acc8a", // userId from the session data
             name: "USER NAME FROM THE SESSION DATA",
             bookFrom: {
               date: moment(req.body.bookFrom).format("DD/MM/YYYY"),
@@ -211,7 +211,7 @@ router
           console.log(err);
         } else {
           User.findOneAndUpdate(
-            { _id: "62555d5ed87a88d3d816b134" },
+            { _id: "6256abfb4ee56d94de7acc8a" },
             {
               $push: {
                 bookings: {
@@ -272,7 +272,7 @@ router
   })
 
   .post(function (req, res) {
-    User.findOne({ _id: "62555d5ed87a88d3d816b134" }, (err, obj) => {
+    User.findOne({ _id: "6256abfb4ee56d94de7acc8a" }, (err, obj) => {
       if (err) {
         console.log(err);
       } else {
@@ -284,7 +284,7 @@ router
           filedOn: moment().format("DD/MM/YYYY"),
           filedBy: {
             user: {
-              userId: "62555d5ed87a88d3d816b134",
+              userId: "6256abfb4ee56d94de7acc8a",
               name: obj.name,
               block: obj.blockNo,
             },
