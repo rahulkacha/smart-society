@@ -14,7 +14,11 @@ const { Meeting, deleteMeeting } = require("../models/meeting");
 const { User, deleteUser } = require("../models/user");
 const { State, City } = require("../models/states");
 
-mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
+mongoose.connect(
+  "mongodb+srv://admin-rahul:" +
+    process.env.MONGODB_PASSWORD +
+    "@cluster0.ufyt2.mongodb.net/smartSocietyDB?retryWrites=true&w=majority"
+);
 
 // LOGIN
 router

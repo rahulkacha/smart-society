@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Society = require("./society");
 
-mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
+// mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
 
 amenitySchema = new mongoose.Schema({
   society: { type: mongoose.Types.ObjectId, required: true }, // link to the society collection
