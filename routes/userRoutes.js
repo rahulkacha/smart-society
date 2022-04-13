@@ -156,7 +156,7 @@ router
         console.log(err);
       } else {
         // FILTER THE AMENITIES BY USER'S SESSION DATA
-        User.findOne({ _id: "62555d5ed87a88d3d816b134" }, (err, obj) => {
+        User.findOne({ _id: "6256abfb4ee56d94de7acc8a" }, (err, obj) => {
           if (err) {
             console.log(err);
           } else {
