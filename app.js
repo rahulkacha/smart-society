@@ -13,10 +13,10 @@ const MongoStore = require("connect-mongo");
 const passport = require("passport");
 //
 const DB_URL =
-  "mongodb://localhost:27017/smartSocietyDB" ||
+  // "mongodb://localhost:27017/smartSocietyDB" ||
   "mongodb+srv://admin-rahul:" +
-    process.env.MONGODB_PASSWORD +
-    "@cluster0.ufyt2.mongodb.net/smartSocietyDB?retryWrites=true&w=majority";
+  process.env.MONGODB_PASSWORD +
+  "@cluster0.ufyt2.mongodb.net/smartSocietyDB?retryWrites=true&w=majority";
 //
 app.use(
   session({
