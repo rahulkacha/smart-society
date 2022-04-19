@@ -29,7 +29,7 @@ app.use(
     cookie: { maxAge: 1000 * 24 * 60 * 60 }, //milliseconds
   })
 );
-//
+///
 require("./config/userPassport");
 
 app.use(passport.initialize());
