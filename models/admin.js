@@ -10,35 +10,10 @@ const adminSchema = new mongoose.Schema({
   password: { type: String, required: true },
   society: { type: mongoose.Types.ObjectId }, // link to the society collection
   societyCode: { type: String, required: true }, // link to society collection
+  admin: { type: Boolean, default: true },
 });
 
 Admin = mongoose.model("Admin", adminSchema);
-
-/////////////////////////////////////////////////////////////////////////
-// Society.find({ _id: "624ae7a023653564cc302c25" }, (err, obj) => {
-//   // add society ID from the user session
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log(obj);
-//     admin = new Admin({
-//       name: "req.body.name",
-//       contact: "req.body.contact",
-//       email: "req.body.email",
-//       password: "req.body.password (encrypted ofc)",
-//       society: obj[0].id,
-//       societyCode: obj[0].societyCode,
-//     });
-
-// admin.save((err, obj) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log("succesfully added a new admin.");
-//   }
-// });
-//   }
-// });
 
 function deleteAdmin(societyId) {
   Admin.deleteMany({ society: societyId }, (err, obj) => {

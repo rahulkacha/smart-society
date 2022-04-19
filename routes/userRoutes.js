@@ -5,6 +5,9 @@ const bcrypt = require("bcrypt");
 const moment = require("moment");
 const router = express.Router();
 //
+const passport = require("passport");
+const isAuth = require("../config/authMiddleware").isAuth;
+//
 const { Society, deleteSociety } = require("../models/society");
 const { User, deleteUser } = require("../models/user");
 const { Amenity, deleteAmenity } = require("../models/amenity");
@@ -48,23 +51,32 @@ router
                     societyCode: req.body.societyCode,
                     date: moment().format("DD/MM/YYYY"),
                   });
-                  newUser.save((err, obj) => {
+                  newUser.save((err, user) => {
                     if (err) {
                       console.log(err);
                     } else {
                       Society.findOne(
-                        { societyCode: obj.societyCode },
+                        { societyCode: user.societyCode },
                         (err, soc) => {
                           if (err) {
                             console.log(err);
                           } else {
+                            //  adding society id to the user object
                             User.findOneAndUpdate(
-                              { _id: obj._id },
+                              { _id: user._id },
                               { society: soc._id },
                               (err, user) => {
                                 if (err) {
                                   console.log(err);
                                 } else {
+                                  // pushing new user's id into the society's users array
+                                  Society.findOneAndUpdate(
+                                    { societyCode: user.societyCode },
+                                    { $push: { users: user._id } },
+                                    (err, obj) => {
+                                      console.log(obj);
+                                    }
+                                  );
                                   console.log(
                                     "successfully added " + user.name + "."
                                   );
@@ -103,30 +115,12 @@ router
   .get(function (req, res) {
     res.render("user-pages/user-login");
   })
-  .post(function (req, res) {
-    User.findOne({ email: _.toLower(req.body.email) }, (err, obj) => {
-      if (err) {
-        console.log(err);
-      } else {
-        if (obj) {
-          // USER EXISTS IN THE DATABASE
-          bcrypt.compare(req.body.password, obj.password, (err, result) => {
-            if (!result) {
-              // WRONG PASSWORD
-              console.log("wrong password! try again.");
-              res.redirect("/login");
-            } else {
-              // PASSWORD IS CORRECT
-              res.redirect("/home");
-            }
-          });
-        } else {
-          // USER DOES NOT EXIST IN THE DATABASE SO REDIRECT HIM TO REGISTER PAGE
-          res.redirect("/register");
-        }
-      }
-    });
-  });
+  .post(
+    passport.authenticate("local", {
+      failureRedirect: "/login",
+      successRedirect: "/home",
+    })
+  );
 
 // GOOGLE OAUTH
 router
@@ -136,11 +130,20 @@ router
     res.send("user google auth triggered.");
   });
 
+// GOOGLE OAUTH
+router
+  .route("/logout")
+
+  .get(function (req, res) {
+    req.logOut();
+    res.redirect("/");
+  });
+
 // HOME PAGE
 router
   .route("/home")
 
-  .get(function (req, res) {
+  .get(isAuth, function (req, res) {
     res.render("user-pages/user-home");
   });
 

@@ -13,30 +13,6 @@ const circularSchema = new mongoose.Schema({
 
 const Circular = new mongoose.model("Circular", circularSchema);
 
-// Society.find({ _id: "624ae7a023653564cc302c25" }, (err, obj) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     const soc_obj = obj[0];
-//     const date = moment().format("DD/MM/YYYY");
-
-//     const circular = new Circular({
-//       title: "req.body.title",
-//       date: moment().format("DD/MM/YYYY"), // parsed date
-//       society: soc_obj._id, // add society ID from the user session
-//       details: "req.body.details",
-//     });
-
-// circular.save((err) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log("successfully added a new meeting.");
-//   }
-// });
-//   }
-// });
-
 function deleteCircular(societyId) {
   Circular.deleteMany({ society: societyId }, (err, obj) => {
     if (err) {

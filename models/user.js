@@ -35,44 +35,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-const password = "req.body.password";
-
-bcrypt.hash(password, saltRounds, function (err, hash) {
-  const user = new User({
-    name: "rahul kacha",
-    email: "rahulbkkfgdgf@gmail.com",
-    password: hash,
-    blockNo: "B173",
-    contact: "8925164521",
-    societyCode: "hari625a91",
-    date: moment().format("DD/MM/YYYY"),
-  });
-
-  // user.save((err, obj) => {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     Society.findOne({ societyCode: obj.societyCode }, (err, soc) => {
-  //       if (err) {
-  //         console.log(err);
-  //       } else {
-  //         User.findOneAndUpdate(
-  //           { _id: obj._id },
-  //           { society: soc._id },
-  //           (err, newUser) => {
-  //             if (err) {
-  //               console.log(err);
-  //             } else {
-  //               console.log("successfully added " + newUser.name + ".");
-  //             }
-  //           }
-  //         );
-  //       }
-  //     });
-  //   }
-  // });
-});
-
 function deleteUser(societyId) {
   User.deleteMany({ society: societyId }, (err, obj) => {
     if (err) {

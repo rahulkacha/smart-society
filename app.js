@@ -10,13 +10,14 @@ const app = express();
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
-
+const passport = require("passport");
+//
 const DB_URL =
   "mongodb://localhost:27017/smartSocietyDB" ||
   "mongodb+srv://admin-rahul:" +
     process.env.MONGODB_PASSWORD +
     "@cluster0.ufyt2.mongodb.net/smartSocietyDB?retryWrites=true&w=majority";
-
+//
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -28,6 +29,12 @@ app.use(
     cookie: { maxAge: 1000 * 24 * 60 * 60 }, //milliseconds
   })
 );
+//
+require("./config/userPassport");
+
+app.use(passport.initialize());
+app.use(passport.session());
+//
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));

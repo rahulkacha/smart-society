@@ -22,30 +22,6 @@ const complaintSchema = new mongoose.Schema({
 
 const Complaint = new mongoose.model("Complaint", complaintSchema);
 
-const date = moment().format("DD/MM/YYYY");
-
-const complaint = new Complaint({
-  title: "complaint title",
-  description: "ddafsfdfgf",
-  filedOn: moment().format("DD/MM/YYYY"),
-  filedBy: {
-    user: {
-      userId: "624ae7a023653564cc302c25",
-      name: "user name",
-      blockNo: "block No",
-    },
-  },
-  society: "624ae7a023653564cc302c25",
-});
-
-// complaint.save((err, obj) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log("succesfully added a new complaint.");
-//   }
-// });
-
 function deleteComplaint(societyId) {
   Complaint.deleteMany({ society: societyId }, (err, obj) => {
     if (err) {
