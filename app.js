@@ -6,6 +6,22 @@ const masterAdminRoutes = require("./routes/masterAdminRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const userRoutes = require("./routes/userRoutes");
 const app = express();
+//
+const mongoose = require("mongoose");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: "mongodb://localhost:27017/smartSocietyDB",
+    }),
+    cookie: { maxAge: 1000 * 24 * 60 * 60 }, //milliseconds
+  })
+);
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
