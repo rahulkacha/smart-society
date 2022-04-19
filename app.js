@@ -11,13 +11,19 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
+const DB_URL =
+  "mongodb://localhost:27017/smartSocietyDB" ||
+  "mongodb+srv://admin-rahul:" +
+    process.env.MONGODB_PASSWORD +
+    "@cluster0.ufyt2.mongodb.net/smartSocietyDB?retryWrites=true&w=majority";
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl: "mongodb://localhost:27017/smartSocietyDB",
+      mongoUrl: DB_URL,
     }),
     cookie: { maxAge: 1000 * 24 * 60 * 60 }, //milliseconds
   })
