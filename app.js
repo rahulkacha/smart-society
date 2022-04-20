@@ -32,6 +32,7 @@ app.use(
 ///
 require("./config/userPassport");
 require("./config/adminPassport");
+require("./config/masterAdminPassport");
 
 app.use(passport.initialize());
 app.use(passport.session());

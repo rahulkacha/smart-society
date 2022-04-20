@@ -13,7 +13,10 @@ const { Complaint, deleteComplaint } = require("../models/complaint");
 const { Meeting, deleteMeeting } = require("../models/meeting");
 const { User, deleteUser } = require("../models/user");
 const { State, City } = require("../models/states");
-
+//
+const passport = require("passport");
+const { isAuth, isMasterAdmin } = require("../config/authMiddleware");
+//
 const DB_URL =
   "mongodb://localhost:27017/smartSocietyDB" ||
   "mongodb+srv://admin-rahul:" +
@@ -30,25 +33,15 @@ router
     res.render("master-admin-pages/master-admin-login");
   })
 
-  .post(function (req, res) {
-    MasterAdmin.findOne({ email: _.toLower(req.body.email) }, (err, obj) => {
-      if (obj) {
-        bcrypt.compare(req.body.password, obj.password, (err, result) => {
-          if (!result) {
-            // WRONG PASSWORD
-            console.log("wrong password!");
-            res.redirect("/master/admin/login");
-          } else {
-            // RIGHT PASSWORD
-            res.redirect("/master/admin/manage-societies");
-          }
-        });
-      } else {
-        //USER NOT FOUND
-        console.log("user not found.");
-      }
-    });
-  });
+  .post(
+    passport.authenticate("local", {
+      failureRedirect: "/master/admin/login",
+      successRedirect: "/master/admin/manage-societies",
+    }), (req, res) => {
+      console.log("here")
+    }
+  )
+
 
 // GOOGLE OAUTH
 router
@@ -58,11 +51,20 @@ router
     res.send("master admin google auth triggered.");
   });
 
+// LOGOUT
+router
+  .route("/logout")
+
+  .get(isAuth, isMasterAdmin, function (req, res) {
+    req.logOut();
+    res.redirect("/");
+  });
+
 // ADD A SOCIETY
 router
   .route("/add-society")
 
-  .get(function (req, res) {
+  .get(isAuth, isMasterAdmin, function (req, res) {
     State.findOne({}, (err, states) => {
       City.findOne({}, (err, cities) => {
         const city = cities.city.sort();
@@ -75,7 +77,7 @@ router
     });
   })
 
-  .post(function (req, res) {
+  .post(isAuth, isMasterAdmin, function (req, res) {
     const id = mongoose.Types.ObjectId();
     const name = req.body.name;
     const newSociety = new Society({
@@ -105,7 +107,7 @@ router
 router
   .route("/manage-societies")
 
-  .get(function (req, res) {
+  .get(isAuth, isMasterAdmin, function (req, res) {
     Society.find({}, (err, result) => {
       res.render("master-admin-pages/master-manage-societies", {
         result: result,
@@ -118,7 +120,7 @@ router
 // MANAGE ADMINS
 router.route("/manage-admins/:societyId")
 
-  .get(function (req, res) {
+  .get(isAuth, isMasterAdmin, function (req, res) {
     Admin.find({ society: req.params.societyId }, (err, admins) => {
       if (err) {
         console.log(err)
@@ -135,7 +137,7 @@ router.route("/manage-admins/:societyId")
 // ACCEPT ADMIN REQUEST
 router.route("/manage-admins/accept/:adminId")
 
-  .get(function (req, res) {
+  .get(isAuth, isMasterAdmin, function (req, res) {
     Admin.findOne({ _id: req.params.adminId }, (err, obj) => {
       obj.isAccepted = !obj.isAccepted
       obj.save((err, savedObj) => {
@@ -151,7 +153,7 @@ router.route("/manage-admins/accept/:adminId")
 // DELETE ADMIN
 router.route("/delete-admin/:adminId")
 
-  .get(function (req, res) {
+  .get(isAuth, isMasterAdmin, function (req, res) {
     Admin.findByIdAndDelete(req.params.adminId, (err, obj) => {
       if (err) {
         console.log(err);
@@ -164,7 +166,7 @@ router.route("/delete-admin/:adminId")
 // DELETE ADMIN
 router.route("/delete/:societyId/")
 
-  .get(function (req, res) {
+  .get(isAuth, isMasterAdmin, function (req, res) {
     const id = req.params.societyId;
     deleteSociety(id);
     deleteAdmin(id);

@@ -24,7 +24,7 @@ module.exports.isAdmin = (req, res, next) => {
   }
 };
 //
-module.exports.isMaster = (req, res, next) => {
+module.exports.isMasterAdmin = (req, res, next) => {
   if (req.user.master) {
     next();
   } else {
