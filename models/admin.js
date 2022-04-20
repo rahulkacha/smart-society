@@ -10,7 +10,9 @@ const adminSchema = new mongoose.Schema({
   password: { type: String, required: true },
   society: { type: mongoose.Types.ObjectId }, // link to the society collection
   societyCode: { type: String, required: true }, // link to society collection
+  societyName: { type: String }, // link to society collection
   admin: { type: Boolean, default: true },
+  isAccepted: { type: Boolean, default: false }
 });
 
 Admin = mongoose.model("Admin", adminSchema);

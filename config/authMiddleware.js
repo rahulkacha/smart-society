@@ -5,7 +5,7 @@ module.exports.isAuth = (req, res, next) => {
     res.status(401).json({ msg: "you are not authorized to view this page." });
   }
 };
-
+//
 module.exports.isNotAuth = (req, res, next) => {
   if (!req.isAuthenticated()) {
     next();
@@ -13,9 +13,9 @@ module.exports.isNotAuth = (req, res, next) => {
     res.redirect("/home");
   }
 };
-
+//
 module.exports.isAdmin = (req, res, next) => {
-  if (req.isAuthenticated() && req.admin.admin) {
+  if (req.user.admin && req.user.isAccepted) {
     next();
   } else {
     res.status(401).json({
@@ -23,9 +23,9 @@ module.exports.isAdmin = (req, res, next) => {
     });
   }
 };
-
+//
 module.exports.isMaster = (req, res, next) => {
-  if (req.isAuthenticated() && req.masterAdmin.master) {
+  if (req.user.master) {
     next();
   } else {
     res.status(401).json({

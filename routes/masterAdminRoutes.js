@@ -17,17 +17,19 @@ const { State, City } = require("../models/states");
 const DB_URL =
   "mongodb://localhost:27017/smartSocietyDB" ||
   "mongodb+srv://admin-rahul:" +
-    process.env.MONGODB_PASSWORD +
-    "@cluster0.ufyt2.mongodb.net/smartSocietyDB?retryWrites=true&w=majority";
+  process.env.MONGODB_PASSWORD +
+  "@cluster0.ufyt2.mongodb.net/smartSocietyDB?retryWrites=true&w=majority";
 
 mongoose.connect(DB_URL);
 
 // LOGIN
 router
   .route("/login")
+
   .get(function (req, res) {
     res.render("master-admin-pages/master-admin-login");
   })
+
   .post(function (req, res) {
     MasterAdmin.findOne({ email: _.toLower(req.body.email) }, (err, obj) => {
       if (obj) {
@@ -72,6 +74,7 @@ router
       });
     });
   })
+
   .post(function (req, res) {
     const id = mongoose.Types.ObjectId();
     const name = req.body.name;
@@ -110,16 +113,67 @@ router
     });
   });
 
-router.route("/delete/:societyId/").get(function (req, res) {
-  const id = req.params.societyId;
-  deleteSociety(id);
-  deleteAdmin(id);
-  deleteAmenity(id);
-  deleteCircular(id);
-  deleteComplaint(id);
-  deleteMeeting(id);
-  deleteUser(id);
-  res.redirect("/master/admin/manage-societies");
-});
+
+
+// MANAGE ADMINS
+router.route("/manage-admins/:societyId")
+
+  .get(function (req, res) {
+    Admin.find({ society: req.params.societyId }, (err, admins) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(admins.length)
+        Society.findById(req.params.societyId, (err, soc) => {
+          res.render("master-admin-pages/master-manage-admins", { admins: admins, socName: soc.name })
+
+        })
+      }
+    })
+  });
+
+// ACCEPT ADMIN REQUEST
+router.route("/manage-admins/accept/:adminId")
+
+  .get(function (req, res) {
+    Admin.findOne({ _id: req.params.adminId }, (err, obj) => {
+      obj.isAccepted = !obj.isAccepted
+      obj.save((err, savedObj) => {
+        if (err) {
+          console.log(err)
+        } else {
+          res.redirect("/master/admin/manage-admins/" + savedObj.society)
+        }
+      })
+    })
+  });
+
+// DELETE ADMIN
+router.route("/delete-admin/:adminId")
+
+  .get(function (req, res) {
+    Admin.findByIdAndDelete(req.params.adminId, (err, obj) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/master/admin/manage-admins/" + obj.society);
+      }
+    });
+  });
+
+// DELETE ADMIN
+router.route("/delete/:societyId/")
+
+  .get(function (req, res) {
+    const id = req.params.societyId;
+    deleteSociety(id);
+    deleteAdmin(id);
+    deleteAmenity(id);
+    deleteCircular(id);
+    deleteComplaint(id);
+    deleteMeeting(id);
+    deleteUser(id);
+    res.redirect("/master/admin/manage-societies");
+  });
 
 module.exports = router;

@@ -27,51 +27,50 @@
 
 <div class="container">
   <br />
-  <h2 class="table-title">manage societies</h2>
+  <h2 class="table-title">manage admins of " <%= socName %> "</h2>
+
   <br />
+  <% if (admins.length) { %>
+
   <table class="table table-bordered border-dark align-middle">
     <tr>
       <th>Sr no</th>
-      <th>Society Name</th>
-      <th>Society address</th>
-      <th>City</th>
-      <th>State</th>
-      <th>Postal Code</th>
-      <th>number of residents</th>
-      <th>society Code</th>
-      <th>manage admins</th>
-      <th>Delete society</th>
+      <th>admin Name</th>
+      <th>is Live</th>
+      <th>delete</th>
     </tr>
-
-    <% result.forEach(function(soc){ %>
+    <% admins.forEach(admin => { %>
     <tr>
-      <td><%= result.indexOf(soc) + 1 %></td>
-      <td><%= soc.name %></td>
-      <td><%= soc.address %></td>
-      <td><%= soc.city %></td>
-      <td><%= soc.state %></td>
-      <td><%= soc.postalCode %></td>
-      <td><%= soc.users.length %></td>
-      <td><%= soc.societyCode %></td>
+      <td><%= admins.indexOf(admin) + 1 %></td>
+      <td><%= admin.name %></td>
       <td>
         <a
           type="button"
-          href="/master/admin/manage-admins/<%= soc._id %> "
-          class="btn btn-primary"
-          >manage</a
+          href="/master/admin/manage-admins/accept/<%= admin._id %>"
+          class="btn btn-<%= admin.isAccepted ? 'primary' : 'danger' %>"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="<%= admin.isAccepted ? 'remove' : 'restore' %> access"
+          ><%= admin.isAccepted %></a
         >
       </td>
       <td>
         <a
           type="button"
-          href="/master/admin/delete/<%= soc._id %> "
+          href="/master/admin/delete-admin/<%= admin._id %>"
           class="btn btn-danger"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="delete admin request"
           >delete</a
         >
       </td>
     </tr>
-    <% }); %>
+    <% }) %>
   </table>
+  <% } else { %>
+  <h2 class="table-title">no admins are registered for <%= socName %></h2>
+  <% } %>
 </div>
 
 <%- include("../partials/footer"); -%>

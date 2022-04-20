@@ -15,6 +15,9 @@ const { Circular, deleteCircular } = require("../models/circular");
 const { Amenity, deleteAmenity } = require("../models/amenity");
 const { Complaint, deleteComplaint } = require("../models/complaint");
 //
+const passport = require("passport");
+const { isAuth, isAdmin } = require("../config/authMiddleware");
+//
 const saltRounds = 10;
 //
 const fileStorageEngine = multer.diskStorage({
@@ -82,7 +85,10 @@ router
                         } else {
                           Admin.findOneAndUpdate(
                             { _id: obj._id },
-                            { society: soc._id },
+                            {
+                              society: soc._id,
+                              societyName: soc.name
+                            },
                             (err, admin) => {
                               if (err) {
                                 console.log(err);
@@ -121,25 +127,20 @@ router
   .get(function (req, res) {
     res.render("admin-pages/admin-login");
   })
-  .post(function (req, res) {
-    Admin.findOne({ email: _.toLower(req.body.email) }, (err, obj) => {
-      if (obj) {
-        bcrypt.compare(req.body.password, obj.password, (err, result) => {
-          if (!result) {
-            // WRONG PASSWORD
-            console.log("wrong password! try again.");
-            res.redirect("/admin/login");
-          } else {
-            // RIGHT PASSWORD
-            res.redirect("/admin/handle-users");
-          }
-        });
-      } else {
-        //USER NOT FOUND
-        console.log("admin not found.");
-        res.redirect("/admin/login");
-      }
-    });
+  .post(
+    passport.authenticate("local", {
+      failureRedirect: "/admin/login",
+      successRedirect: "/admin/handle-users",
+    })
+  );
+
+// LOGOUT
+router
+  .route("/logout")
+
+  .get(isAuth, isAdmin, function (req, res) {
+    req.logOut();
+    res.redirect("/");
   });
 
 // GOOGLE OAUTH
@@ -151,36 +152,41 @@ router
   });
 
 // HANDLE USERS
-router.route("/handle-users").get(function (req, res) {
-  // FILTER USERS BY SOCIETY CODE FOUND FROM THE SESSION OF ADMIN
-  User.find({}, (err, objects) => {
-    if (err) {
-      console.log(err);
-    } else {
-      const users = objects;
-      res.render("admin-pages/admin-handle-users", { users: users });
-    }
-  });
-});
+router.route("/handle-users")
 
-router.route("/delete/:userId").get(function (req, res) {
-  User.findByIdAndDelete(req.params.userId, (err, obj) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(obj);
-      res.redirect("/admin/handle-users");
-    }
+  .get(isAuth, isAdmin, function (req, res) {
+    const adminSessionData = req.session.passport.user
+    // FILTER USERS BY SOCIETY CODE FOUND FROM THE SESSION OF ADMIN
+    User.find({ society: adminSessionData.society }, (err, users) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(adminSessionData)
+        res.render("admin-pages/admin-handle-users", { users: users });
+      }
+    });
   });
-});
+
+router.route("/delete/:userId")
+
+  .get(isAuth, isAdmin, function (req, res) {
+    User.findByIdAndDelete(req.params.userId, (err, obj) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(obj);
+        res.redirect("/admin/handle-users");
+      }
+    });
+  });
 
 // MEETINGS
 router
   .route("/meetings")
 
-  .get(function (req, res) {
-    // FILTER MEETINGS BY SOCIETY ID COLLECTED FROM THE ADMIN SESSION DATA
-    Meeting.find({}, (err, meetings) => {
+  .get(isAuth, isAdmin, function (req, res) {
+    const adminSessionData = req.session.passport.user
+    Meeting.find({ society: adminSessionData.society }, (err, meetings) => {
       if (err) {
         console.log(err);
       } else {
@@ -191,9 +197,9 @@ router
       }
     });
   })
-  .post(function (req, res) {
-    // ADD A MEETING BY SOCIETY ID COLLECTED FROM THE ADMIN SESSION DATA
-    Society.findOne({ _id: "62514f189dbdf6fc51f03a91" }, (err, obj) => {
+  .post(isAuth, isAdmin, function (req, res) {
+    const adminSessionData = req.session.passport.user
+    Society.findOne({ _id: adminSessionData.society }, (err, obj) => {
       if (err) {
         console.log(err);
       } else {
@@ -220,31 +226,34 @@ router
     });
   });
 
-router.route("/meetings/delete/:meetingId").get(function (req, res) {
-  Meeting.findByIdAndDelete(req.params.meetingId, (err, obj) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(obj);
-      res.redirect("/admin/meetings");
-    }
+router.route("/meetings/delete/:meetingId")
+
+  .get(isAuth, isAdmin, function (req, res) {
+    Meeting.findByIdAndDelete(req.params.meetingId, (err, obj) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(obj);
+        res.redirect("/admin/meetings");
+      }
+    });
   });
-});
 
 // CIRCULARS
 router
   .route("/circulars")
 
-  .get(function (req, res) {
-    // FILTER CIRCULARS BY SOCIETY ID COLLECTED FROM THE ADMIN SESSION DATA
-    Circular.find({}, (err, circulars) => {
+  .get(isAuth, isAdmin, function (req, res) {
+    const adminSessionData = req.session.passport.user
+    Circular.find({ society: adminSessionData.society }, (err, circulars) => {
       if (!err) {
         res.render("admin-pages/admin-circulars", { circulars: circulars });
       }
     });
   })
-  .post(function (req, res) {
-    Society.findOne({ id: "62514f189dbdf6fc51f03a91" }, (err, obj) => {
+  .post(isAuth, isAdmin, function (req, res) {
+    const adminSessionData = req.session.passport.user
+    Society.findOne({ id: adminSessionData.society }, (err, obj) => {
       if (err) {
         console.log(err);
       } else {
@@ -266,24 +275,26 @@ router
     });
   });
 
-router.route("/circulars/delete/:circularId").get(function (req, res) {
-  Circular.findByIdAndDelete(req.params.circularId, (err, obj) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(obj);
-      res.redirect("/admin/circulars");
-    }
+router.route("/circulars/delete/:circularId")
+
+  .get(isAuth, isAdmin, function (req, res) {
+    Circular.findByIdAndDelete(req.params.circularId, (err, obj) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(obj);
+        res.redirect("/admin/circulars");
+      }
+    });
   });
-});
 
 // AMENITIES
 router
   .route("/amenities")
 
-  .get(function (req, res) {
-    // FILTER AMENITIES BY SOCIETY ID COLLECTED FROM THE ADMIN SESSION DATA
-    Amenity.find({}, (err, amenities) => {
+  .get(isAuth, isAdmin, function (req, res) {
+    const adminSessionData = req.session.passport.user
+    Amenity.find({ society: adminSessionData.society }, (err, amenities) => {
       if (err) {
         console.log(err);
       } else {
@@ -291,12 +302,14 @@ router
       }
     });
   })
-  .post(upload.single("image"), function (req, res) {
+
+  .post(isAuth, isAdmin, upload.single("image"), function (req, res) {
+    const adminSessionData = req.session.passport.user
     // ADD AMENITIES BY SOCIETY ID COLLECTED FROM THE ADMIN SESSION DATA
     const newAmenity = new Amenity({
       name: req.body.name,
       description: req.body.description,
-      society: "62514f189dbdf6fc51f03a91",
+      society: adminSessionData.society,
       photo: req.file.path,
       canBeBooked: req.body.canBeBooked,
     });
@@ -310,44 +323,47 @@ router
     });
   });
 
-router.route("/amenities/delete/:amenityId").get(function (req, res) {
-  Amenity.findByIdAndDelete(req.params.amenityId, (err, obj) => {
-    if (err) {
-      console.log(err);
-    } else {
-      User.updateMany(
-        {},
-        {
-          $pull: {
-            bookings: { amenityId: req.params.amenityId },
+router.route("/amenities/delete/:amenityId")
+
+  .get(isAuth, isAdmin, function (req, res) {
+    Amenity.findByIdAndDelete(req.params.amenityId, (err, obj) => {
+      if (err) {
+        console.log(err);
+      } else {
+        User.updateMany(
+          {},
+          {
+            $pull: {
+              bookings: { amenityId: req.params.amenityId },
+            },
           },
-        },
-        (err, obj) => {
+          (err, obj) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(obj);
+            }
+          }
+        );
+        fs.unlink(obj.photo, (err) => {
           if (err) {
             console.log(err);
           } else {
-            console.log(obj);
+            console.log(`succesfully deleted ${obj.photo}`);
+            res.redirect("/admin/amenities");
           }
-        }
-      );
-      fs.unlink(obj.photo, (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(`succesfully deleted ${obj.photo}`);
-          res.redirect("/admin/amenities");
-        }
-      });
-    }
+        });
+      }
+    });
   });
-});
 
 // COMPLAINTS
 router
   .route("/complaints")
 
-  .get(function (req, res) {
-    Complaint.find({ status: "pending" }, (err, complaints) => {
+  .get(isAuth, isAdmin, function (req, res) {
+    const adminSessionData = req.session.passport.user
+    Complaint.find({ society: adminSessionData.society, status: "pending" }, (err, complaints) => {
       if (err) {
         console.log(err);
       } else {
@@ -362,7 +378,7 @@ router
 router
   .route("/complaints/:complaintId")
 
-  .get(function (req, res) {
+  .get(isAuth, isAdmin, function (req, res) {
     Complaint.findOne({ _id: req.params.complaintId }, (err, complaint) => {
       if (err) {
         console.log(err);
@@ -373,7 +389,7 @@ router
       }
     });
   })
-  .post(function (req, res) {
+  .post(isAuth, isAdmin, function (req, res) {
     Complaint.findOneAndUpdate(
       { _id: req.params.complaintId },
       { comment: req.body.comment },
@@ -389,19 +405,21 @@ router
   });
 
 // ADMIN RESOLVES A COMMENT
-router.route("/complaints/resolve/:complaintId").get(function (req, res) {
-  Complaint.findOneAndUpdate(
-    { _id: req.params.complaintId },
-    { status: "resolved" },
-    (err, obj) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("resolved complaint " + req.params.complaintId);
-        res.redirect("/admin/complaints");
+router.route("/complaints/resolve/:complaintId")
+
+  .get(isAuth, isAdmin, function (req, res) {
+    Complaint.findOneAndUpdate(
+      { _id: req.params.complaintId },
+      { status: "resolved" },
+      (err, obj) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("resolved complaint " + req.params.complaintId);
+          res.redirect("/admin/complaints");
+        }
       }
-    }
-  );
-});
+    );
+  });
 
 module.exports = router;

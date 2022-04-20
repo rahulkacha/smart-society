@@ -6,8 +6,7 @@ const moment = require("moment");
 const router = express.Router();
 //
 const passport = require("passport");
-const isAuth = require("../config/authMiddleware").isAuth;
-const isNotAuth = require("../config/authMiddleware").isNotAuth;
+const { isAuth, isNotAuth } = require("../config/authMiddleware");
 //
 const { Society, deleteSociety } = require("../models/society");
 const { User, deleteUser } = require("../models/user");
@@ -131,7 +130,7 @@ router
     res.send("user google auth triggered.");
   });
 
-// GOOGLE OAUTH
+// LOGOUT
 router
   .route("/logout")
 
@@ -285,7 +284,6 @@ router
       if (err) {
         console.log(err);
       } else {
-        console.log(obj.name);
         newComplaint = new Complaint({
           title: req.body.title,
           description: req.body.description,
