@@ -6,6 +6,14 @@ module.exports.isAuth = (req, res, next) => {
   }
 };
 
+module.exports.isNotAuth = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    next();
+  } else {
+    res.redirect("/home");
+  }
+};
+
 module.exports.isAdmin = (req, res, next) => {
   if (req.isAuthenticated() && req.admin.admin) {
     next();

@@ -7,6 +7,7 @@ const router = express.Router();
 //
 const passport = require("passport");
 const isAuth = require("../config/authMiddleware").isAuth;
+const isNotAuth = require("../config/authMiddleware").isNotAuth;
 //
 const { Society, deleteSociety } = require("../models/society");
 const { User, deleteUser } = require("../models/user");
@@ -112,7 +113,7 @@ router
 router
   .route("/login")
 
-  .get(function (req, res) {
+  .get(isNotAuth, function (req, res) {
     res.render("user-pages/user-login");
   })
   .post(
@@ -134,7 +135,7 @@ router
 router
   .route("/logout")
 
-  .get(function (req, res) {
+  .get(isAuth, function (req, res) {
     req.logOut();
     res.redirect("/");
   });
@@ -153,13 +154,13 @@ router
 router
   .route("/services/amenities")
 
-  .get(function (req, res) {
-    Amenity.find({}, (err, amenities) => {
+  .get(isAuth, function (req, res) {
+    const userSessionData = req.session.passport.user
+    Amenity.find({ _id: userSessionData.society }, (err, amenities) => {
       if (err) {
         console.log(err);
       } else {
-        // FILTER THE AMENITIES BY USER'S SESSION DATA
-        User.findOne({ _id: "6256abfb4ee56d94de7acc8a" }, (err, obj) => {
+        User.findOne({ _id: userSessionData._id }, (err, obj) => {
           if (err) {
             console.log(err);
           } else {
@@ -179,7 +180,8 @@ router
 router
   .route("/services/amenities/book/:amenityId")
 
-  .get(function (req, res) {
+  .get(isAuth, function (req, res) {
+    const userSessionData = req.session.passport.user
     Amenity.findOne({ _id: req.params.amenityId }, (err, amenity) => {
       if (err) {
         console.log(err);
@@ -189,15 +191,15 @@ router
     });
   })
 
-  .post(function (req, res) {
-    // GET USER ID AND NAME FROM THE SESSION DATA
+  .post(isAuth, function (req, res) {
+    const userSessionData = req.session.passport.user
     Amenity.findOneAndUpdate(
       { _id: req.params.amenityId, canBeBooked: true },
       {
         $push: {
           bookings: {
-            userId: "6256abfb4ee56d94de7acc8a", // userId from the session data
-            name: "USER NAME FROM THE SESSION DATA",
+            userId: userSessionData._id,
+            name: userSessionData.name,
             bookFrom: {
               date: moment(req.body.bookFrom).format("DD/MM/YYYY"),
               time: moment(req.body.bookFrom).format("hh:mm A"),
@@ -214,7 +216,7 @@ router
           console.log(err);
         } else {
           User.findOneAndUpdate(
-            { _id: "6256abfb4ee56d94de7acc8a" },
+            { _id: userSessionData._id },
             {
               $push: {
                 bookings: {
@@ -249,9 +251,9 @@ router
 router
   .route("/services/circulars")
 
-  .get(function (req, res) {
-    // FILTER CIRCULARRS BY SOCIETY USING SESSION DATA
-    Circular.find({}, (err, circulars) => {
+  .get(isAuth, function (req, res) {
+    const userSessionData = req.session.passport.user
+    Circular.find({ society: userSessionData.society }, (err, circulars) => {
       if (err) {
         confirm.log(err);
       } else {
@@ -263,9 +265,12 @@ router
 // COMPLAINTS
 router
   .route("/services/complaints")
-  .get(function (req, res) {
-    // FILTER COMPLAINTS BY SOCIETY USING SESSION DATA
-    Complaint.find({}, (err, complaints) => {
+  .get(isAuth, function (req, res) {
+    const userSessionData = req.session.passport.user
+    Complaint.find({
+      society: userSessionData.society,
+      "filedBy.user.userId": userSessionData._id
+    }, (err, complaints) => {
       if (err) {
         console.log(err);
       } else {
@@ -274,25 +279,25 @@ router
     });
   })
 
-  .post(function (req, res) {
-    User.findOne({ _id: "6256abfb4ee56d94de7acc8a" }, (err, obj) => {
+  .post(isAuth, function (req, res) {
+    const userSessionData = req.session.passport.user
+    User.findOne({ _id: userSessionData._id }, (err, obj) => {
       if (err) {
         console.log(err);
       } else {
         console.log(obj.name);
         newComplaint = new Complaint({
-          // LINK TO THE SOCITY FROM THE SESSION DATA
           title: req.body.title,
           description: req.body.description,
           filedOn: moment().format("DD/MM/YYYY"),
           filedBy: {
             user: {
-              userId: "6256abfb4ee56d94de7acc8a",
+              userId: userSessionData._id,
               name: obj.name,
               block: obj.blockNo,
             },
           },
-          society: "62514f189dbdf6fc51f03a91",
+          society: userSessionData.society,
         });
 
         newComplaint.save((err, obj) => {
@@ -309,7 +314,8 @@ router
 
 router
   .route("/services/complaints/delete/:complaintId")
-  .get(function (req, res) {
+  .get(isAuth, function (req, res) {
+    const userSessionData = req.session.passport.user
     Complaint.findByIdAndDelete(req.params.complaintId, (err, obj) => {
       if (err) {
         console.log(err);
@@ -324,15 +330,17 @@ router
 router
   .route("/contact")
 
-  .get(function (req, res) {
-    Admin.find({}, (err, admins) => {
+  .get(isAuth, function (req, res) {
+    const userSessionData = req.session.passport.user
+    Admin.find({ society: userSessionData.society }, (err, admins) => {
       if (err) {
         console.log(err);
       } else {
+
         res.render("user-pages/user-contact", {
           admins: admins,
-          userName: "static user name",
-          blockNo: "static block No",
+          userName: userSessionData.name,
+          blockNo: userSessionData.blockNo,
         });
       }
     });
