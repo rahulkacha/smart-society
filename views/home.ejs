@@ -1,0 +1,164 @@
+<%- include("./partials/header"); -%>
+<title>smart society</title>
+<img src="./images/In-house-it-services.jpg" class="img-fluid" alt="image" />
+<div class="top">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <button
+        class="navbar-toggler btn-outline-light"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon" id="abc">
+          <i class="fa-solid fa-sliders"></i
+        ></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact Us</a>
+          </li>
+          <li class="nav-item">
+            <div class="dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Login
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li>
+                  <a class="dropdown-item" href="/login">user</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/admin/login">admin</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="aim" data-aos="fade-right">
+  <h1 class="our">Our aim:</h1>
+  <p>
+    A Smart Society is an integrated web service module for making the
+    complicated management functions simpler of society. An Smart Society helps
+    in boosting the rapidity of functions of the society or society management.
+    Smart Society makes sure the better communication among society members,
+    workers & society management committee. Smart Society makes certain the
+    overall society administration and management, assisting the top management
+    to take effective decisions guiding to better management of resources.
+  </p>
+</div>
+
+<main class="container" id="about">
+  <!-- About Us -->
+  <section class="about">
+    <h1>About Us:</h1>
+    <p>
+      In developing this project is to motivate the innovations which are not
+      take place due to the lack of money, more time consummating, more paper
+      work, and insecure data. It is to make the bridge between innovator and
+      group of investors so due to small contributions of each can make the
+      dream true.
+    </p>
+  </section>
+</main>
+<!-- Service -->
+
+<section class="service" id="servicies">
+  <img
+    src="./images/iStock-918755218_1200x710.jpg"
+    class="img-fluid blur"
+    alt="image"
+    id="stock"
+  />
+
+  <h1 class="provide" id="services">What we provide?</h1>
+
+  <div class="part1">
+    <h5 data-aos="fade-right">Circulars</h5>
+    <h5 data-aos="fade-right">Amenities Bookings</h5>
+    <h5 data-aos="fade-right">Complaints</h5>
+  </div>
+  <div class="part2">
+    <h5 data-aos="fade-left">Reliable and secure</h5>
+    <h5 data-aos="fade-left">Easy to use</h5>
+    <h5 data-aos="fade-left">Simple Interface</h5>
+  </div>
+</section>
+
+<section class="faq_container">
+  <div class="que">
+    <h1 class="fa">FAQ'S</h1>
+    <p>
+      <a
+        class="btn que_btn"
+        data-bs-toggle="collapse"
+        href="#multiCollapseExample1"
+        role="button"
+        aria-expanded="false"
+        aria-controls="multiCollapseExample1"
+        >Why choose us?</a
+      >
+      <button
+        class="btn que_btn"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#multiCollapseExample2"
+        aria-expanded="false"
+        aria-controls="multiCollapseExample2"
+      >
+        What are our goals?
+      </button>
+    </p>
+    <div class="row">
+      <div class="col">
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+          <div class="card card-body">
+            We operate on "Less But Better" design principle. Our simplest, but
+            natural workflow gives better hold on society management with
+            minimum efforts.
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="collapse multi-collapse" id="multiCollapseExample2">
+          <div class="card card-body">
+            Our Goal is to cater to all your basic society needs on fingertips.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="contact" class="bottom-container">
+  <a class="footer-link" href="mailto:rahulbkacha@gmail.com"
+    ><i class="fa-solid fa-envelope"></i> Email Us</a
+  >
+  <p class="copyright">© <%= year %> RK JG DJ YK</p>
+</div>
+
+<%- include("./partials/footer"); -%>

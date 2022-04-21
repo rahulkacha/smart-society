@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const masterAdminRoutes = require("./routes/masterAdminRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const userRoutes = require("./routes/userRoutes");
+const moment = require("moment")
 const app = express();
 //
 const mongoose = require("mongoose");
@@ -46,7 +47,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // HOME PAGE
 app.get("/", function (req, res) {
-  res.render("test-pages/home");
+  res.render("home", { year: moment().format("YYYY") });
 });
 
 // MASTER ADMIN ROUTES
