@@ -1,7 +1,4 @@
 const mongoose = require("mongoose");
-const Society = require("./society");
-
-// mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
 
 const adminSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -12,6 +9,7 @@ const adminSchema = new mongoose.Schema({
   societyCode: { type: String, required: true }, // link to society collection
   societyName: { type: String }, // link to society collection
   admin: { type: Boolean, default: true },
+  googleId: { type: String },
   isAccepted: { type: Boolean, default: false }
 });
 

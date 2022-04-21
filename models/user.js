@@ -1,15 +1,10 @@
 const mongoose = require("mongoose");
-const { Society, deleteSociety } = require("./society");
-const bcrypt = require("bcrypt");
-const moment = require("moment");
-const saltRounds = 10;
-
-// mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
+  googleId: { type: String },
   blockNo: { type: String },
   contact: { type: String, min: 10, max: 10, required: true },
   occupantType: { type: String, default: "owner" },

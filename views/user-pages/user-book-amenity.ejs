@@ -1,5 +1,8 @@
 <%- include("../partials/header"); -%> <%- include("../partials/user-navbar");
--%> <% if (!amenity.canBeBooked) { %>
+-%>
+<title>Smart Society | <%= amenity.name %></title>
+
+<% if (!amenity.canBeBooked) { %>
 <!-- amenity can't be booked -->
 <div class="container-fluid">
   <section class="vh-100">

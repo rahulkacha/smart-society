@@ -12,11 +12,8 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 //
-const DB_URL =
-  "mongodb://localhost:27017/smartSocietyDB" ||
-  "mongodb+srv://admin-rahul:" +
-  process.env.MONGODB_PASSWORD +
-  "@cluster0.ufyt2.mongodb.net/smartSocietyDB?retryWrites=true&w=majority";
+
+mongoose.connect("mongodb+srv://admin-rahul:" + process.env.MONGODB_PASSWORD + "@cluster0.ufyt2.mongodb.net/smartSocietyDB?retryWrites=true&w=majority")
 //
 app.use(
   session({
@@ -24,20 +21,23 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl: DB_URL,
+      mongoUrl: "mongodb+srv://admin-rahul:" + process.env.MONGODB_PASSWORD + "@cluster0.ufyt2.mongodb.net/smartSocietyDB?retryWrites=true&w=majority",
     }),
     cookie: { maxAge: 1000 * 24 * 60 * 60 }, //milliseconds
   })
 );
-///
-require("./config/userPassport");
-require("./config/adminPassport");
-require("./config/masterAdminPassport");
-
+// passport-local stratagies
+require("./config/passport-local-stratagies/userPassport");
+require("./config/passport-local-stratagies/adminPassport");
+require("./config/passport-local-stratagies/masterAdminPassport");
+// passport-google-oauth strategies
+require("./config/passport-google-stratagies/userGooglePassport");
+require("./config/passport-google-stratagies/adminGooglePassport");
+require("./config/passport-google-stratagies/masterAdminPassport");
+//
 app.use(passport.initialize());
 app.use(passport.session());
 //
-
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use("/uploads/", express.static("./uploads/"));

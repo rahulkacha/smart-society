@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-// mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
-
 const societySchema = new mongoose.Schema({
   name: { type: String, required: true },
   address: { type: String, required: true },

@@ -1,0 +1,32 @@
+<%- include("../partials/header"); -%><%- include("../partials/user-navbar");
+-%>
+<title>Smart Society | meetings</title>
+<div class="container">
+  <br /><br />
+  <h2 class="table-title">meetings</h2>
+  <br />
+  <table class="table table-bordered border-dark">
+    <tr>
+      <th>sr no</th>
+      <th>meeting title</th>
+      <th>meeting agenda</th>
+      <th>meeting details</th>
+      <th>date</th>
+      <th>time</th>
+      <th>venue</th>
+    </tr>
+    <tr>
+      <% meetings.forEach(meeting => { %>
+
+      <td><%= meetings.indexOf(meeting) + 1 %></td>
+      <td><%= meeting.title %></td>
+      <td><%= meeting.agenda %></td>
+      <td><%= meeting.details %></td>
+      <td><%= moment(meeting.date).format("DD/MM/YYYY") %></td>
+      <td><%= moment(meeting.date).format("hh:mm A") %></td>
+      <td><%= meeting.venue %></td>
+    </tr>
+    <% }) %>
+  </table>
+</div>
+<%- include("../partials/footer"); -%>

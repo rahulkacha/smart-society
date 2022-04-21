@@ -17,13 +17,6 @@ const { State, City } = require("../models/states");
 const passport = require("passport");
 const { isAuth, isMasterAdmin } = require("../config/authMiddleware");
 //
-const DB_URL =
-  "mongodb://localhost:27017/smartSocietyDB" ||
-  "mongodb+srv://admin-rahul:" +
-  process.env.MONGODB_PASSWORD +
-  "@cluster0.ufyt2.mongodb.net/smartSocietyDB?retryWrites=true&w=majority";
-
-mongoose.connect(DB_URL);
 
 // LOGIN
 router
@@ -34,22 +27,26 @@ router
   })
 
   .post(
-    passport.authenticate("local", {
+    passport.authenticate("masterAdmin-local", {
       failureRedirect: "/master/admin/login",
       successRedirect: "/master/admin/manage-societies",
-    }), (req, res) => {
-      console.log("here")
-    }
+    })
   )
-
 
 // GOOGLE OAUTH
 router
+  .route("/login/google")
+
+  .get(passport.authenticate("masterAdmin-google", { scope: ["email", "profile"] }))
+
+
+// GOOGLE CALLBACK
+router
   .route("/auth/google")
 
-  .get(function (req, res) {
-    res.send("master admin google auth triggered.");
-  });
+  .get(passport.authenticate("masterAdmin-google", { failureRedirect: "/master/admin/login" }), (req, res) => {
+    res.redirect("/master/admin/manage-societies")
+  })
 
 // LOGOUT
 router
@@ -125,7 +122,6 @@ router.route("/manage-admins/:societyId")
       if (err) {
         console.log(err)
       } else {
-        console.log(admins.length)
         Society.findById(req.params.societyId, (err, soc) => {
           res.render("master-admin-pages/master-manage-admins", { admins: admins, socName: soc.name })
 

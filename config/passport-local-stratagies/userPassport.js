@@ -2,9 +2,9 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const _ = require("lodash");
 const LocalStrategy = require("passport-local").Strategy;
-const { User, deleteUser } = require("../models/user");
+const { User, deleteUser } = require("../../models/user");
 
-passport.use(
+passport.use("user-local",
   new LocalStrategy(
     {
       usernameField: "email",

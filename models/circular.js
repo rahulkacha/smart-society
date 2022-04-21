@@ -1,8 +1,4 @@
 const mongoose = require("mongoose");
-const Society = require("./society");
-const moment = require("moment");
-
-// mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
 
 const circularSchema = new mongoose.Schema({
   title: { type: String, required: true },

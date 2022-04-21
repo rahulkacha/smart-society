@@ -1,8 +1,4 @@
 const mongoose = require("mongoose");
-const moment = require("moment");
-const Society = require("./society");
-
-// mongoose.connect("mongodb://localhost:27017/smartSocietyDB");
 
 const complaintSchema = new mongoose.Schema({
   title: { type: String, required: true },

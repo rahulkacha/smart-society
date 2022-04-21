@@ -2,9 +2,9 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const _ = require("lodash");
 const LocalStrategy = require("passport-local").Strategy;
-const { Admin, deleteAdmin } = require("../models/admin");
+const MasterAdmin = require("../../models/master-admin");
 
-passport.use(
+passport.use("masterAdmin-local",
     new LocalStrategy(
         {
             usernameField: "email",
@@ -12,7 +12,7 @@ passport.use(
             passReqToCallback: true,
         },
         (req, username, password, cb) => {
-            Admin.findOne({ email: _.toLower(username) }, (err, obj) => {
+            MasterAdmin.findOne({ email: _.toLower(username) }, (err, obj) => {
                 if (err) {
                     console.log(err);
                 } else {
@@ -45,14 +45,14 @@ passport.use(
 );
 ///////////////////////////////////////////////
 // pass properties you want to use
-passport.serializeUser((admin, done) => {
-    done(null, admin); // user => user.id
+passport.serializeUser((masterAdmin, done) => {
+    done(null, masterAdmin); // user => user.id
 });
 ///////////////////////////////////////////////
-passport.deserializeUser((adminId, done) => {
-    Admin.findById(adminId, (err, admin) => {
-        if (admin) {
-            done(null, admin);
+passport.deserializeUser((masterAdminId, done) => {
+    MasterAdmin.findById(masterAdminId, (err, masterAdmin) => {
+        if (masterAdmin) {
+            done(null, masterAdmin);
         } else {
             done(err);
         }

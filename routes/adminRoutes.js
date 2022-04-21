@@ -128,11 +128,25 @@ router
     res.render("admin-pages/admin-login");
   })
   .post(
-    passport.authenticate("local", {
+    passport.authenticate("admin-local", {
       failureRedirect: "/admin/login",
       successRedirect: "/admin/handle-users",
     })
   );
+
+// GOOGLE OAUTH
+router
+  .route("/login/google")
+
+  .get(passport.authenticate("admin-google", { scope: ["email", "profile"] }))
+
+// GOOGLE CALLBACK
+
+router
+  .route("/auth/google")
+  .get(passport.authenticate("admin-google", { failureRedirect: "/admin/login" }), (req, res) => {
+    res.redirect("/admin/handle-users")
+  })
 
 // LOGOUT
 router
@@ -141,14 +155,6 @@ router
   .get(isAuth, isAdmin, function (req, res) {
     req.logOut();
     res.redirect("/");
-  });
-
-// GOOGLE OAUTH
-router
-  .route("/auth/google")
-
-  .get(function (req, res) {
-    res.send("admin google auth triggered.");
   });
 
 // HANDLE USERS
@@ -246,14 +252,16 @@ router
   .get(isAuth, isAdmin, function (req, res) {
     const adminSessionData = req.session.passport.user
     Circular.find({ society: adminSessionData.society }, (err, circulars) => {
-      if (!err) {
+      if (err) {
+        console.log(err)
+      } else {
         res.render("admin-pages/admin-circulars", { circulars: circulars });
       }
     });
   })
   .post(isAuth, isAdmin, function (req, res) {
     const adminSessionData = req.session.passport.user
-    Society.findOne({ id: adminSessionData.society }, (err, obj) => {
+    Society.findOne({ _id: adminSessionData.society }, (err, obj) => {
       if (err) {
         console.log(err);
       } else {

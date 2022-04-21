@@ -14,6 +14,7 @@ const { Amenity, deleteAmenity } = require("../models/amenity");
 const { Circular, deleteCircular } = require("../models/circular");
 const { Complaint, deleteComplaint } = require("../models/complaint");
 const { Admin, deleteAdmin } = require("../models/admin");
+const { Meeting } = require("../models/meeting");
 
 const saltRounds = 10;
 // USER PAGES
@@ -116,7 +117,7 @@ router
     res.render("user-pages/user-login");
   })
   .post(
-    passport.authenticate("local", {
+    passport.authenticate("user-local", {
       failureRedirect: "/login",
       successRedirect: "/home",
     })
@@ -124,11 +125,17 @@ router
 
 // GOOGLE OAUTH
 router
-  .route("/auth/google")
+  .route("/login/google")
 
-  .get(function (req, res) {
-    res.send("user google auth triggered.");
-  });
+  .get(passport.authenticate("user-google", { scope: ["email", "profile"] }))
+
+// GOOGLE CALLBACK
+
+router
+  .route("/auth/google")
+  .get(passport.authenticate("user-google", { failureRedirect: "/login" }), (req, res) => {
+    res.redirect("/home")
+  })
 
 // LOGOUT
 router
@@ -155,15 +162,17 @@ router
 
   .get(isAuth, function (req, res) {
     const userSessionData = req.session.passport.user
-    Amenity.find({ _id: userSessionData.society }, (err, amenities) => {
+
+    Amenity.find({ society: userSessionData.society }, (err, amenities) => {
       if (err) {
         console.log(err);
       } else {
-        User.findOne({ _id: userSessionData._id }, (err, obj) => {
+        User.findById(userSessionData._id, (err, obj) => {
           if (err) {
             console.log(err);
           } else {
             if (obj) {
+              console.log(amenities)
               res.render("user-pages/user-amenities-list", {
                 amenities: amenities,
                 bookings: obj.bookings,
@@ -261,6 +270,21 @@ router
     });
   });
 
+// MEETINGS
+router
+  .route("/services/meetings")
+
+  .get(isAuth, function (req, res) {
+    const userSessionData = req.session.passport.user
+    Meeting.find({ society: userSessionData.society }, (err, meetings) => {
+      if (err) {
+        confirm.log(err);
+      } else {
+        res.render("user-pages/user-meetings", { meetings: meetings, moment: moment });
+      }
+    });
+  });
+
 // COMPLAINTS
 router
   .route("/services/complaints")
@@ -280,7 +304,8 @@ router
 
   .post(isAuth, function (req, res) {
     const userSessionData = req.session.passport.user
-    User.findOne({ _id: userSessionData._id }, (err, obj) => {
+    console.log(userSessionData._id)
+    User.findById(userSessionData._id, (err, obj) => {
       if (err) {
         console.log(err);
       } else {
