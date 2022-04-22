@@ -194,7 +194,7 @@ router
       if (err) {
         console.log(err);
       } else {
-        res.render("user-pages/user-book-amenity", { amenity: amenity });
+        res.render("user-pages/user-book-amenity", { amenity: amenity, moment: moment });
       }
     });
   })

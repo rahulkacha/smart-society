@@ -86,11 +86,13 @@
         <th>book from</th>
         <th>book till</th>
       </tr>
+      <% amenity.bookings.forEach(booking => { %>
       <tr>
-        <td>1</td>
-        <td>17/02/2021 11:00 AM</td>
-        <td>17/02/2021 03:00 PM</td>
+        <td><%= amenity.bookings.indexOf(booking) + 1 %></td>
+        <td><%= booking.bookFrom.date %> <%= booking.bookFrom.time %></td>
+        <td><%= booking.bookTill.date %> <%= booking.bookTill.time %></td>
       </tr>
+      <% }) %>
     </table>
   </div>
 </div>

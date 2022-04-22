@@ -159,7 +159,7 @@ router.route("/delete-admin/:adminId")
     });
   });
 
-// DELETE ADMIN
+// DELETE SOCIETY
 router.route("/delete/:societyId/")
 
   .get(isAuth, isMasterAdmin, function (req, res) {
