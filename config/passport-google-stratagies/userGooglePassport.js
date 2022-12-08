@@ -7,7 +7,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy
 passport.use("user-google", new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://smart--society.herokuapp.com/auth/google",
+    callbackURL: "http://ec2-43-205-203-139.ap-south-1.compute.amazonaws.com/auth/google",
     scope: ["email", "profile"]
 },
     (accessToken, refreshToken, profile, cb) => {
